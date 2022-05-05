@@ -1,0 +1,17 @@
+.mat-form-field {
+  margin-right: 50px;
+}
+
+.mat-expansion-panel-header-description {
+  flex-grow: 0;
+  font-weight: bold;
+  color: #5a77c5;
+}
+
+tr {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+td {
+  padding: 10px 8px;
+}

@@ -1,0 +1,21 @@
+.calendar {
+  width: 78%;
+  float: left;
+  min-height: 640px;
+  margin-bottom: 30px;
+}
+
+.drag-missions,
+.drag-others {
+  width: 20%;
+  float: right;
+}
+
+.fc-bgevent:hover > .fc-mission,
+.fc-bgevent:hover > .fc-other {
+  cursor: not-allowed;
+}
+
+.mat-list-base .mat-list-item.mat-list-item-with-avatar {
+  height: 44px;
+}

@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="title">
+    <h2>Tracking</h2>
+  </div>
+  <div class="content">
+    <div class="filters">
+      <mat-form-field>
+        <mat-label>Année</mat-label>
+        <mat-select
+          [value]="selectedYear"
+          (selectionChange)="onYearChange($event)"
+        >
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mois</mat-label>
+        <mat-select
+          [value]="selectedMonth"
+          (selectionChange)="onMonthChange($event)"
+        >
+          <mat-option *ngFor="let month of months" [value]="month.value">
+            {{ month.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="results">
+      <div class="spinner" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <mat-accordion *ngIf="!isLoading && !hasError">
+        <mat-expansion-panel *ngFor="let tracking of trackingsByUsers">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ tracking.user }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let mission of tracking.missions">
+              <mat-icon mat-list-icon [style.color]="getColor(mission)">
+                {{ getIcon(mission) }}
+              </mat-icon>
+              <h4 mat-line [style.color]="getColor(mission)">
+                {{ mission.name }}
+              </h4>
+              <p mat-line>{{ mission.daysCount }} jours</p>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <div *ngIf="!isLoading && hasError">
+        Aucune donnée ne correspond aux critères sélectionnés.
+      </div>
+    </div>
+  </div>
+</div>

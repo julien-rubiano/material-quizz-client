@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="title">
+    <h2>Facturation</h2>
+  </div>
+  <div class="content">
+    <div class="filters">
+      <mat-form-field>
+        <mat-label>Année</mat-label>
+        <mat-select
+          [value]="selectedYear"
+          (selectionChange)="onYearChange($event)"
+        >
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{ year }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mois</mat-label>
+        <mat-select
+          [value]="selectedMonth"
+          (selectionChange)="onMonthChange($event)"
+        >
+          <mat-option *ngFor="let month of months" [value]="month.value">
+            {{ month.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="results">
+      <div class="spinner" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <mat-accordion *ngIf="!isLoading && !hasError">
+        <mat-expansion-panel *ngFor="let tracking of trackingsByMissions">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ tracking.mission }}
+            </mat-panel-title>
+            <mat-panel-description>
+              Total : {{ tracking.totalCost }} €
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <table>
+              <tr>
+                <th>Utilisateurs</th>
+                <th>Nombre de jours</th>
+                <th>Coûts (€)</th>
+              </tr>
+              <tr *ngFor="let user of tracking.users">
+                <td>
+                  {{ user.name }}
+                </td>
+                <td>
+                  {{ user.daysCount }}
+                </td>
+                <td>
+                  {{ user.daysCost }}
+                </td>
+              </tr>
+            </table>
+          </mat-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <div *ngIf="!isLoading && hasError">
+        Aucune donnée ne correspond aux critères sélectionnés.
+      </div>
+    </div>
+  </div>
+</div>

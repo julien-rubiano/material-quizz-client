@@ -1,0 +1,94 @@
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="container" *ngIf="!isLoading">
+  <div class="title">
+    <h2 class="pull-left">Utilisateurs</h2>
+    <h2 class="pull-right">
+      <a routerLink="/users/create">
+        <button mat-flat-button color="primary">
+          Ajouter
+        </button>
+      </a>
+    </h2>
+  </div>
+  <div class="content">
+    <table>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Login</th>
+        <th>Mot de passe</th>
+        <th>TJM</th>
+        <th>Admin</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let user of users">
+        <td>
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              placeholder="Prénom"
+              [value]="user.firstName"
+              (keyup)="onEditFirstName($event, user)"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              placeholder="Nom"
+              [value]="user.lastName"
+              (keyup)="onEditLastName($event, user)"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              placeholder="Login"
+              [value]="user.login"
+              (keyup)="onEditLogin($event, user)"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              placeholder="Mot de passe"
+              [value]="user.password"
+              (keyup)="onEditPassword($event, user)"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field appearance="fill">
+            <input
+              matInput
+              placeholder="TJM"
+              [value]="user.cost"
+              (keyup)="onEditCost($event, user)"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <div class="text-center">
+            <mat-checkbox
+              [(ngModel)]="user.isAdmin"
+              (change)="onEditIsAdmin(user)"
+            ></mat-checkbox>
+          </div>
+        </td>
+        <td>
+          <button mat-icon-button (click)="onDelete(user)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

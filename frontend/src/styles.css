@@ -1,0 +1,319 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.content {
+  padding-bottom: 32px;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+table th {
+  text-align: left;
+  padding: 10px 8px;
+}
+
+table td {
+  text-align: left;
+  padding: 0px 8px;
+}
+
+.mat-form-field-type-mat-input {
+  width: 100%;
+}
+
+.fc-bgevent:hover {
+  cursor: not-allowed;
+}
+
+.fc-button-primary {
+  background-color: #7e87cf;
+  border-color: #7e87cf;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fc-button-primary:hover,
+.fc-button-primary:not(:disabled):active {
+  background-color: #7a75b2;
+  border-color: #7a75b2;
+}
+
+.fc-button-primary:focus {
+  box-shadow: none;
+}
+
+.fc-event,
+.fc-event-dot {
+  padding: 5px;
+}
+
+.fc-toolbar h2 {
+  font-size: 1.3em;
+  margin: 0;
+}
+
+.fc-dragging {
+  font-size: 14px;
+  text-align: center;
+}
+
+.fc-dragging h3 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 400;
+}
+
+.fc-dragging .mat-icon {
+  display: none;
+}
+
+.fc-mission,
+.fc-other {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff !important;
+  background-color: #5a77c5;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(0, 0, 0, 0.14),
+    0 0 0 0 rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+.fc-other {
+  background-color: #eda88a;
+}
+
+.mat-form-field-invalid .mat-input-element,
+.mat-warn .mat-input-element {
+  caret-color: #e46569;
+}
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-label,
+.mat-form-field.mat-form-field-invalid
+  .mat-form-field-label
+  .mat-form-field-required-marker,
+.mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent {
+  color: #e46569;
+}
+
+.mat-fab.mat-primary,
+.mat-flat-button.mat-primary,
+.mat-mini-fab.mat-primary,
+.mat-raised-button.mat-primary {
+  background-color: #60b8d4;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: #7e87cf;
+}
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
+  background-color: #e46569;
+}
+
+.mat-form-field.mat-focused .mat-input-element,
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #7e87cf !important;
+}
+
+.mat-input-element {
+  caret-color: #7e87cf !important;
+}
+
+.mat-flat-button {
+  background-color: #dddddd;
+}
+
+td.fc-today {
+  background-color: #fafafa !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent
+  .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent
+  .mat-ripple-element {
+  background: #eda88a;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #eda88a;
+}
+
+.mat-slider {
+  width: 300px;
+}
+
+.mat-slider-thumb-label {
+  transform: rotate(45deg) !important;
+  border-radius: 50% 50% 0 !important;
+}
+
+.mat-slider-thumb {
+  transform: scale(0) !important;
+}
+
+.mat-slider-thumb-label-text {
+  opacity: 1 !important;
+}
+
+.mat-spinner {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #7e87cf !important;
+}
+
+.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.introjs-overlay {
+  background: rgba(0,0,0,.32);
+}
+
+.introjs-tooltip {
+  padding: 24px;
+  border-radius: 4px;
+  min-width: 250px;
+}
+
+.introjs-tooltip h1 {
+  font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+  margin: 0 0 20px;
+  display: block;
+  color: rgba(0,0,0,.87);
+}
+
+.introjs-tooltiptext {
+  margin: 0 0 20px;
+  color: rgba(0,0,0,.87);
+}
+
+.introjs-nextbutton, 
+.introjs-prevbutton, 
+.introjs-nextbutton.introjs-fullbutton,
+.introjs-donebutton,
+.introjs-prevbutton.introjs-fullbutton {
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  margin: 0;
+  min-width: 64px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  overflow: visible;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: 0 0;
+  text-shadow: none;
+  color: rgba(0,0,0,.87);
+}
+
+.introjs-nextbutton:hover,
+.introjs-prevbutton:hover,
+.introjs-nextbutton.introjs-fullbutton:hover,
+.introjs-donebutton:hover,
+.introjs-button:focus {
+  background-color: #f0f0f0;
+  box-shadow: none;
+  background-image: none;
+}
+
+.introjs-button:active {
+  background-color: #ffffff;
+  box-shadow: none;
+  background-image: none;
+}
+
+.introjs-donebutton,
+.introjs-donebutton:focus,
+.introjs-donebutton:hover {
+  background-color: #60b8d4;
+  color:#ffffff;
+}
+
+
+.introjs-progress {
+  margin: 0 0 20px;
+}
+
+.introjs-skipbutton {
+  display: none;
+}
+
+.introjs-skipbutton.introjs-donebutton {
+  display:inline-block;
+}
+
+.introjs-prevbutton {
+  float: left;
+}
+
+.introjs-helperLayer {
+  background-color: rgba(255,255,255,.5);
+}
+
+.introjs-progress {
+  box-sizing: content-box;
+  overflow: hidden;
+  height: 4px;
+  margin: 10px 0 20px 0;
+  border-radius: 0px;
+  background-color: #d6d3f6;
+  transition: opacity 250ms linear;
+}
+
+.introjs-progressbar {
+  font-size: 4px;
+  line-height: 4px;
+  background-color: #7a75b2;
+}
