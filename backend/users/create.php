@@ -21,14 +21,12 @@ if(
     !empty($data->firstName) &&
     !empty($data->lastName) &&
     !empty($data->login) &&
-    !empty($data->password) &&
-    !empty($data->cost)
+    !empty($data->password)
 ){
     $user->firstName = $data->firstName;
     $user->lastName = $data->lastName;
     $user->login = $data->login;
     $user->password = $data->password;
-    $user->cost = $data->cost;
     $user->isAdmin = $data->isAdmin === true ? 1 : 0;
  
     if($user->create()){

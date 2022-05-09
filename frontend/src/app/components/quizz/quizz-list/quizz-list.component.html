@@ -1,0 +1,57 @@
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="container" *ngIf="!isLoading">
+  <div class="title">
+    <h2 class="pull-left">Quizz</h2>
+    <h2 class="pull-right" *ngIf="isAdmin">
+      <a routerLink="/quizz/create">
+        <button mat-flat-button color="primary">Ajouter</button>
+      </a>
+    </h2>
+  </div>
+  <div class="content">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let quizz">{{ quizz.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let quizz">{{ quizz.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="play">
+        <th mat-header-cell *matHeaderCellDef>Jouer</th>
+        <td mat-cell *matCellDef="let quizz">
+          <button mat-icon-button (click)="onPlay(quizz)">
+            <mat-icon>play_circle</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Modifier</th>
+        <td mat-cell *matCellDef="let quizz">
+          <button mat-icon-button (click)="onEdit(quizz)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Supprimer</th>
+        <td mat-cell *matCellDef="let quizz">
+          <button mat-icon-button (click)="onDelete(quizz)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

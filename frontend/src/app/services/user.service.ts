@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { User } from "../models/user.model";
-import { handleError } from "./services.utils";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { User } from '../models/user.model';
+import { handleError } from './services.utils';
 
 @Injectable()
 export class UserService {
-  private usersUrl = "https://devfactory-calendar.000webhostapp.com/users";
+  private usersUrl = 'https://soat-agile.000webhostapp.com/api/users';
 
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.usersUrl}/read.php`).pipe(
-      map(data => data),
+      map((data) => data),
       catchError(handleError)
     );
   }
@@ -34,15 +34,6 @@ export class UserService {
   private update(user: User): Observable<User> {
     return this.http
       .post<User>(`${this.usersUrl}/update.php`, JSON.stringify(user))
-      .pipe(catchError(handleError));
-  }
-
-  completeTutorial(user: User): Observable<User> {
-    return this.http
-      .post<User>(
-        `${this.usersUrl}/complete_tutorial.php`,
-        JSON.stringify(user)
-      )
       .pipe(catchError(handleError));
   }
 

@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="title">
+        <h2 class="pull-left">Dashboard</h2>
+    </div>
+    <div class="content">
+        <mat-card class="card">
+            <img mat-card-image src="/assets/img/users.jpg">
+            <mat-card-content>
+                <mat-card-title>Utilisateurs</mat-card-title>
+                <p>
+                    Voir la liste des utilisateurs ayant accès au site. Mais également créer, supprimer, modifier ces utilisateurs.
+                </p>
+            </mat-card-content>
+            <mat-card-actions class="pull-right">
+                <a mat-flat-button color="primary" routerLink="users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    VOIR
+                </a>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="card">
+            <img mat-card-image src="/assets/img/quizz.jpg">
+            <mat-card-content>
+                <mat-card-title>Quizz</mat-card-title>
+                <p>
+                    Voir la liste des quizz existants. Mais également créer, supprimer, modifier ces quizz.
+                </p>
+            </mat-card-content>
+            <mat-card-actions class="pull-right">
+                <a mat-flat-button color="primary" routerLink="quizz" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    VOIR
+                </a>
+            </mat-card-actions>
+        </mat-card>
+
+    </div>
+</div>

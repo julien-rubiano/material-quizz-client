@@ -8,7 +8,6 @@ class User{
     public $firstName;
     public $login;
     public $password;
-    public $cost;
     public $isAdmin;
  
     public function __construct($db){
@@ -26,7 +25,7 @@ class User{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    lastName=:lastName, firstName=:firstName, login=:login, password=:password, cost=:cost, isAdmin=:isAdmin";
+                    lastName=:lastName, firstName=:firstName, login=:login, password=:password, isAdmin=:isAdmin";
         $stmt = $this->conn->prepare($query);
      
         // sanitize
@@ -34,7 +33,6 @@ class User{
         $this->firstName=htmlspecialchars(strip_tags($this->firstName));
         $this->login=htmlspecialchars(strip_tags($this->login));
         $this->password=htmlspecialchars(strip_tags($this->password));
-        $this->cost=htmlspecialchars(strip_tags($this->cost));
         $this->isAdmin=htmlspecialchars(strip_tags($this->isAdmin));
      
         // bind values
@@ -42,7 +40,6 @@ class User{
         $stmt->bindParam(":firstName", $this->firstName);
         $stmt->bindParam(":login", $this->login);
         $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":cost", $this->cost);
         $stmt->bindParam(":isAdmin", $this->isAdmin);
      
         // execute query
@@ -62,7 +59,6 @@ class User{
                     lastName = :lastName,
                     login = :login,
                     password = :password,
-                    cost = :cost,
                     isAdmin = :isAdmin
                 WHERE
                     id = :id";
@@ -75,7 +71,6 @@ class User{
         $this->lastName=htmlspecialchars(strip_tags($this->lastName));
         $this->login=htmlspecialchars(strip_tags($this->login));
         $this->password=htmlspecialchars(strip_tags($this->password));
-        $this->cost=htmlspecialchars(strip_tags($this->cost));
         $this->isAdmin=htmlspecialchars(strip_tags($this->isAdmin));
         $this->id=htmlspecialchars(strip_tags($this->id));
      
@@ -84,34 +79,7 @@ class User{
         $stmt->bindParam(':lastName', $this->lastName);
         $stmt->bindParam(':login', $this->login);
         $stmt->bindParam(':password', $this->password);
-        $stmt->bindParam(':cost', $this->cost);
         $stmt->bindParam(':isAdmin', $this->isAdmin);
-        $stmt->bindParam(':id', $this->id);
-     
-        // execute the query
-        if($stmt->execute()){
-            return true;
-        }
-     
-        return false;
-    }
-
-    function complete_tutorial(){
-        // update query
-        $query = "UPDATE
-                    " . $this->table_name . "
-                SET
-                    hasCompletedTutorial = 1
-                WHERE
-                    id = :id";
-     
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
-     
-        // sanitize
-        $this->id=htmlspecialchars(strip_tags($this->id));
-     
-        // bind new values
         $stmt->bindParam(':id', $this->id);
      
         // execute the query
@@ -180,7 +148,6 @@ class User{
         $this->login = $row['login'];
         $this->firstName = $row['firstName'];
         $this->lastName = $row['lastName'];
-        $this->hasCompletedTutorial = (int)$row['hasCompletedTutorial'];
     }
 }
 ?>

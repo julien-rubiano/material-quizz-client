@@ -14,28 +14,16 @@
       fixedTopGap="56">
       <mat-nav-list>
         <a mat-list-item routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <mat-icon mat-list-icon>today</mat-icon>
-          <h4 mat-line>Mon CRA</h4>
+          <mat-icon mat-list-icon>dashboard</mat-icon>
+          <h4 mat-line>Dashboard</h4>
         </a>
         <a mat-list-item routerLink="/users" routerLinkActive="active" *ngIf="isAdmin">
-          <mat-icon mat-list-icon>insert_emoticone</mat-icon>
+          <mat-icon mat-list-icon>people</mat-icon>
           <h4 mat-line>Utilisateurs</h4>
         </a>
-        <a mat-list-item routerLink="/missions" routerLinkActive="active">
-          <mat-icon mat-list-icon>work</mat-icon>
-          <h4 mat-line>Missions</h4>
-        </a>
-        <a mat-list-item routerLink="/tracking" routerLinkActive="active" *ngIf="isAdmin">
-          <mat-icon mat-list-icon>alarm</mat-icon>
-          <h4 mat-line>Tracking</h4>
-        </a>
-        <a mat-list-item routerLink="/absences" routerLinkActive="active">
-          <mat-icon mat-list-icon>hotel</mat-icon>
-          <h4 mat-line>Absences</h4>
-        </a>
-        <a mat-list-item routerLink="/billing" routerLinkActive="active" *ngIf="isAdmin">
-          <mat-icon mat-list-icon>euro_symbol</mat-icon>
-          <h4 mat-line>Facturation</h4>
+        <a mat-list-item routerLink="/quizz" routerLinkActive="active">
+          <mat-icon mat-list-icon>sports_esports</mat-icon>
+          <h4 mat-line>Quizz</h4>
         </a>
       </mat-nav-list>
     </mat-sidenav>

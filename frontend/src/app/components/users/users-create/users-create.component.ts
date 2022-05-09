@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { UserService } from "src/app/services/user.service";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-users-create",
-  templateUrl: "./users-create.component.html"
+  selector: 'app-users-create',
+  templateUrl: './users-create.component.html',
 })
 export class UsersCreateComponent {
   userForm: FormGroup;
@@ -16,19 +16,18 @@ export class UsersCreateComponent {
     private router: Router
   ) {
     this.userForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      login: ["", Validators.required],
-      password: ["", Validators.required],
-      cost: ["", [Validators.required, Validators.pattern(/^\d+$/)]],
-      isAdmin: [false]
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      login: ['', Validators.required],
+      password: ['', Validators.required],
+      isAdmin: [false],
     });
   }
 
-  onSubmit(formData) {
-    if (this.userForm.status === "VALID") {
+  onSubmit(formData: any) {
+    if (this.userForm.status === 'VALID') {
       this.userService.save(formData).subscribe();
-      this.router.navigate(["/users"]);
+      this.router.navigate(['/users']);
     }
   }
 }

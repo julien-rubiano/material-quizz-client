@@ -1,34 +1,34 @@
-import { Component } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { AuthService } from "src/app/services/auth.service";
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage: string;
+  errorMessage!: string;
 
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder
   ) {
     this.loginForm = this.formBuilder.group({
-      login: ["", Validators.required],
-      password: ["", Validators.required]
+      login: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
-  onSubmit(formData) {
-    if (this.loginForm.status === "VALID") {
+  onSubmit(formData: any) {
+    if (this.loginForm.status === 'VALID') {
       const loginRequest = this.authService.login(formData);
       loginRequest.subscribe(
-        user => {
+        (user) => {
           this.authService.validateLogin(loginRequest);
         },
-        error => {
+        (error) => {
           this.errorMessage = error.message;
         }
       );
@@ -36,6 +36,6 @@ export class LoginComponent {
   }
 
   onKeyup() {
-    this.errorMessage = null;
+    this.errorMessage = '';
   }
 }

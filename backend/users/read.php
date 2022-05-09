@@ -30,7 +30,6 @@ if($num>0){
             "lastName" => html_entity_decode($lastName),
             "login" => html_entity_decode($login),
             "password" => html_entity_decode($password),
-            "cost" => $cost,
             "isAdmin" => (int)$isAdmin
         );
  

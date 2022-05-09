@@ -20,7 +20,6 @@ $user->lastName = $data->lastName;
 $user->firstName = $data->firstName;
 $user->login = $data->login;
 $user->password = $data->password;
-$user->cost = $data->cost;
 $user->isAdmin = $data->isAdmin;
  
 if($user->update()){

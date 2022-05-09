@@ -1,0 +1,10 @@
+.card {
+    max-width: 400px;
+    float: left;
+    margin: 0 60px 60px 0;
+}
+
+.header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}

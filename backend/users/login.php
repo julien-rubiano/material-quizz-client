@@ -29,8 +29,7 @@ if(
         $user_item = array(
             "id" =>  $user->id,
             "firstName" => $user->firstName,
-            "lastName" => $user->lastName,
-            "hasCompletedTutorial" => $user->hasCompletedTutorial
+            "lastName" => $user->lastName
         );
      
         // set response code - 200 OK

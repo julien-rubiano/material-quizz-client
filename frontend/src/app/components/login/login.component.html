@@ -1,11 +1,9 @@
 <div class="container" onclick="onclick">
-  <div class="top"></div>
-  <div class="bottom"></div>
   <div class="center">
     <h2>Connexion</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
       <p>
-        <mat-form-field appearance="legacy">
+        <mat-form-field appearance="fill">
           <mat-label>Login</mat-label>
           <input
             matInput
@@ -18,7 +16,7 @@
       </p>
 
       <p>
-        <mat-form-field appearance="legacy">
+        <mat-form-field appearance="fill">
           <mat-label>Mot de passe</mat-label>
           <input
             matInput
@@ -30,11 +28,15 @@
         </mat-form-field>
       </p>
 
-      <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+      <p><mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error></p>
+      
 
-      <button mat-flat-button class="pull-right" color="primary" type="submit">
-        Valider
-      </button>
+      <p class="pull-right">
+        <button mat-flat-button color="primary" type="submit">
+          Valider
+        </button>
+      </p>
+      
     </form>
     <h2>&nbsp;</h2>
   </div>

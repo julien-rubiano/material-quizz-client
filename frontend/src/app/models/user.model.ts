@@ -4,7 +4,5 @@ export interface User {
   lastName: string;
   login: string;
   password: string;
-  cost: number;
   isAdmin: boolean;
-  hasCompletedTutorial: boolean;
 }
