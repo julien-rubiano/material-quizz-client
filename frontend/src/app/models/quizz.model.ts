@@ -1,6 +1,23 @@
 export interface Quizz {
   id: number;
-  name: string;
+  title: string;
   description: string;
   isRandomQuestions: boolean;
+  questions?: Question[];
+}
+
+export interface Question {
+  id: number;
+  title: string;
+  isRandomAnswers: boolean;
+  quizzId: number;
+  answers?: Answer[];
+}
+
+export interface Answer {
+  id: number;
+  title: string;
+  position: number;
+  questionId: number;
+  quizzId: number;
 }

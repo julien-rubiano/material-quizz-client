@@ -4,43 +4,45 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
- 
+
 include_once '../config/database.php';
-include_once '../objects/quizz.php';
- 
+include_once '../objects/answer.php';
+
 $database = new Database();
 $db = $database->getConnection();
- 
-$quizz = new Quizz($db);
- 
+
+$answer = new Answer($db);
+
 $data = json_decode(file_get_contents("php://input"));
 
-$quizz->id = $data->id;
-$quizz->title = $data->title;
-$quizz->description = $data->description;
-$quizz->isRandomQuestions = $data->isRandomQuestions === true ? 1 : 0;
+$answer->id = $data->id;
+$answer->title = $data->title;
+$answer->position = $data->position;
+$answer->questionId = $data->questionId;
+$answer->quizzId = $data->quizzId;
 
-$stmt = $quizz->update();
+$stmt = $answer->update();
 $num = $stmt->rowCount();
 
 if ($num > 0) {
 
-    $quizz_item = [];
+    $answer_item = [];
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
 
-        $quizz_item = array(
+        $answer_item = array(
             "id" => (int)$id,
             "title" => $title,
-            "description" => $description,
-            "isRandomQuestions" => (bool)$isRandomQuestions
+            "questionId" => (int)$questionId,
+            "quizzId" => (int)$quizzId,
+            "position" => (int)$position
         );
     }
 
     http_response_code(200);
-    echo json_encode($quizz_item);
-} else{
+    echo json_encode($answer_item);
+} else {
     http_response_code(503);
-    echo json_encode(array("message" => "Unable to update quizz."));
+    echo json_encode(array("message" => "Unable to update answer."));
 }

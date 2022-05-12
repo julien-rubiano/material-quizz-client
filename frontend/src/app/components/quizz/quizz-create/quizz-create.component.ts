@@ -17,7 +17,7 @@ export class QuizzCreateComponent {
     private router: Router
   ) {
     this.quizzForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      title: ['', Validators.required],
     });
   }
 

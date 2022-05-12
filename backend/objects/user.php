@@ -67,20 +67,20 @@ class User{
         $stmt = $this->conn->prepare($query);
      
         // sanitize
+        $this->id=htmlspecialchars(strip_tags($this->id));
         $this->firstName=htmlspecialchars(strip_tags($this->firstName));
         $this->lastName=htmlspecialchars(strip_tags($this->lastName));
         $this->login=htmlspecialchars(strip_tags($this->login));
         $this->password=htmlspecialchars(strip_tags($this->password));
         $this->isAdmin=htmlspecialchars(strip_tags($this->isAdmin));
-        $this->id=htmlspecialchars(strip_tags($this->id));
      
         // bind new values
+        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':firstName', $this->firstName);
         $stmt->bindParam(':lastName', $this->lastName);
         $stmt->bindParam(':login', $this->login);
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':isAdmin', $this->isAdmin);
-        $stmt->bindParam(':id', $this->id);
      
         // execute the query
         if($stmt->execute()){

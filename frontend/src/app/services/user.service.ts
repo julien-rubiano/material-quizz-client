@@ -26,20 +26,14 @@ export class UserService {
   }
 
   private create(user: User): Observable<User> {
-    return this.http
-      .post<User>(`${this.usersUrl}/create.php`, JSON.stringify(user))
-      .pipe(catchError(handleError));
+    return this.http.post<User>(`${this.usersUrl}/create.php`, JSON.stringify(user)).pipe(catchError(handleError));
   }
 
   private update(user: User): Observable<User> {
-    return this.http
-      .post<User>(`${this.usersUrl}/update.php`, JSON.stringify(user))
-      .pipe(catchError(handleError));
+    return this.http.post<User>(`${this.usersUrl}/update.php`, JSON.stringify(user)).pipe(catchError(handleError));
   }
 
   delete(user: User): Observable<User> {
-    return this.http
-      .post<User>(`${this.usersUrl}/delete.php`, JSON.stringify(user))
-      .pipe(catchError(handleError));
+    return this.http.post<User>(`${this.usersUrl}/delete.php`, JSON.stringify(user)).pipe(catchError(handleError));
   }
 }

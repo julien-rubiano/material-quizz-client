@@ -34,6 +34,8 @@ import { QuizzCreateComponent } from 'src/app/components/quizz/quizz-create/quiz
 import { MenuLayoutComponent } from 'src/app/components/menu-layout/menu-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { QuizzEditComponent } from './components/quizz/quizz-edit/quizz-edit.component';
+import { QuestionService } from './services/question.service';
+import { AnswerService } from './services/answer.service';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,14 @@ import { QuizzEditComponent } from './components/quizz/quizz-edit/quizz-edit.com
     MatSelectModule,
     MatProgressSpinnerModule,
   ],
-  providers: [UserService, QuizzService, AuthGuard, AdminGuard],
+  providers: [
+    UserService,
+    QuizzService,
+    AuthGuard,
+    AdminGuard,
+    QuestionService,
+    AnswerService,
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

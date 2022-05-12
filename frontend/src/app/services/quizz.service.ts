@@ -19,12 +19,10 @@ export class QuizzService {
   }
 
   getQuizzById(id: number): Observable<Quizz> {
-    return this.http
-      .get<Quizz>(`${this.quizzUrl}/read-single.php?id=${id}`)
-      .pipe(
-        map((data) => data),
-        catchError(handleError)
-      );
+    return this.http.get<Quizz>(`${this.quizzUrl}/read-single.php?id=${id}`).pipe(
+      map((data) => data),
+      catchError(handleError)
+    );
   }
 
   save(quizz: Quizz): Observable<Quizz> {
@@ -35,20 +33,14 @@ export class QuizzService {
   }
 
   private create(quizz: Quizz): Observable<Quizz> {
-    return this.http
-      .post<Quizz>(`${this.quizzUrl}/create.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError));
+    return this.http.post<Quizz>(`${this.quizzUrl}/create.php`, JSON.stringify(quizz)).pipe(catchError(handleError));
   }
 
   private update(quizz: Quizz): Observable<Quizz> {
-    return this.http
-      .post<Quizz>(`${this.quizzUrl}/update.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError));
+    return this.http.post<Quizz>(`${this.quizzUrl}/update.php`, JSON.stringify(quizz)).pipe(catchError(handleError));
   }
 
   delete(quizz: Quizz): Observable<Quizz> {
-    return this.http
-      .post<Quizz>(`${this.quizzUrl}/delete.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError));
+    return this.http.post<Quizz>(`${this.quizzUrl}/delete.php`, JSON.stringify(quizz)).pipe(catchError(handleError));
   }
 }

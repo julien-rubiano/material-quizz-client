@@ -26,12 +26,10 @@ export class AuthService {
 
   isCurrentUserAdmin(): Observable<boolean> {
     const currentUser = this.getCurrentUser();
-    return this.http
-      .get<boolean>(`${this.usersUrl}/is_admin.php?id=${currentUser.id}`)
-      .pipe(
-        map((data) => data),
-        catchError(handleError)
-      );
+    return this.http.get<boolean>(`${this.usersUrl}/is_admin.php?id=${currentUser.id}`).pipe(
+      map((data) => data),
+      catchError(handleError)
+    );
   }
 
   login(credentials: Credentials): Observable<User> {

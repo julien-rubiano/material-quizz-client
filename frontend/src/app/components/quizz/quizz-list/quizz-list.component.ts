@@ -15,19 +15,13 @@ export class QuizzListComponent implements OnInit {
   isLoading: boolean = false;
   isAdmin = false;
   currentUser!: User;
-  displayedColumns: string[] = ['id', 'name', 'play', 'edit', 'delete'];
+  displayedColumns: string[] = ['id', 'title', 'play', 'edit', 'delete'];
 
-  constructor(
-    private quizzService: QuizzService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private quizzService: QuizzService, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.isLoading = true;
-    this.authService
-      .isCurrentUserAdmin()
-      .subscribe((result) => (this.isAdmin = result));
+    this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.getQuizz();
   }
 
@@ -38,13 +32,13 @@ export class QuizzListComponent implements OnInit {
     });
   }
 
-  onEdit(quizz: Quizz) {
+  edit(quizz: Quizz) {
     this.router.navigate([`/quizz/edit/${quizz.id}`]);
   }
 
-  onPlay(quizz: Quizz) {}
+  play(quizz: Quizz) {}
 
-  onDelete(quizz: Quizz) {
+  remove(quizz: Quizz) {
     this.quizzService.delete(quizz).subscribe();
     this.getQuizz();
   }

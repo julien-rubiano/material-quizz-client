@@ -30,7 +30,7 @@ if($num>0){
             "lastName" => html_entity_decode($lastName),
             "login" => html_entity_decode($login),
             "password" => html_entity_decode($password),
-            "isAdmin" => (int)$isAdmin
+            "isAdmin" => (bool)$isAdmin
         );
  
         array_push($users_arr, $user_item);

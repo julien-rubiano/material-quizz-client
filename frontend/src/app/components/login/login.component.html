@@ -5,12 +5,7 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Login</mat-label>
-          <input
-            matInput
-            formControlName="login"
-            required
-            (keyup)="onKeyup()"
-          />
+          <input matInput formControlName="login" required (keyup)="onKeyup()" />
           <mat-icon matSuffix>vpn_key</mat-icon>
         </mat-form-field>
       </p>
@@ -18,25 +13,18 @@
       <p>
         <mat-form-field appearance="fill">
           <mat-label>Mot de passe</mat-label>
-          <input
-            matInput
-            formControlName="password"
-            required
-            (keyup)="onKeyup()"
-          />
+          <input matInput formControlName="password" required (keyup)="onKeyup()" />
           <mat-icon matSuffix>https</mat-icon>
         </mat-form-field>
       </p>
 
-      <p><mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error></p>
-      
+      <p>
+        <mat-error *ngIf="errorMessage">{{ errorMessage }}</mat-error>
+      </p>
 
       <p class="pull-right">
-        <button mat-flat-button color="primary" type="submit">
-          Valider
-        </button>
+        <button mat-flat-button color="primary" type="submit">Valider</button>
       </p>
-      
     </form>
     <h2>&nbsp;</h2>
   </div>

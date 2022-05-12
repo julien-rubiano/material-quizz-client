@@ -1,13 +1,13 @@
 <?php
-class Quizz
+class Question
 {
     private $conn;
-    private $table_name = "quizz";
+    private $table_name = "questions";
 
     public $id;
     public $title;
-    public $description;
-    public $isRandomQuestions;
+    public $isRandomAnswers;
+    public $quizzId;
 
     public function __construct($db)
     {
@@ -18,15 +18,6 @@ class Quizz
     {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    private function readById($id)
-    {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id);
         $stmt->execute();
         return $stmt;
     }
@@ -50,21 +41,44 @@ class Quizz
         return $stmt;
     }
 
+    function readByQuizz()
+    {
+        // update query
+        $query = "SELECT * FROM " . $this->table_name . " WHERE quizzId = :quizzId";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
+
+        // bind new values
+        $stmt->bindParam(":quizzId", $this->quizzId);
+
+        // execute the query
+        $stmt->execute();
+        return $stmt;
+    }
+
     function create()
     {
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    title=:title";
+                    title=:title, isRandomAnswers=:isRandomAnswers, quizzId=:quizzId";
         $stmt = $this->conn->prepare($query);
 
         // sanitize
         $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->isRandomAnswers = htmlspecialchars(strip_tags($this->isRandomAnswers));
+        $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
 
         // bind values
         $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":isRandomAnswers", $this->isRandomAnswers);
+        $stmt->bindParam(":quizzId", $this->quizzId);
 
-        // execute query
+        // execute the query
         if ($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
             return $this->readSingle();
@@ -80,8 +94,8 @@ class Quizz
                     " . $this->table_name . "
                 SET
                     title=:title,
-                    description=:description,
-                    isRandomQuestions=:isRandomQuestions
+                    isRandomAnswers=:isRandomAnswers,
+                    quizzId=:quizzId
                 WHERE
                     id = :id";
 
@@ -89,16 +103,19 @@ class Quizz
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->title = htmlspecialchars(strip_tags($this->title));
         $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->isRandomAnswers = htmlspecialchars(strip_tags($this->isRandomAnswers));
+        $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
+
 
         // bind new values
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':isRandomQuestions', $this->isRandomQuestions);
+        $stmt->bindParam(':isRandomAnswers', $this->isRandomAnswers);
+        $stmt->bindParam(':quizzId', $this->quizzId);
 
-        // execute query
+        // execute the query
         if ($stmt->execute()) {
             return $this->readSingle();
         }
