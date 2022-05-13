@@ -11,6 +11,7 @@ import { MenuLayoutComponent } from 'src/app/components/menu-layout/menu-layout.
 import { AdminGuard } from './guards/admin-guard.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.component';
+import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,11 @@ const routes: Routes = [
     path: 'login',
     component: FullScreenLayoutComponent,
     children: [{ path: '', component: LoginComponent }],
+  },
+  {
+    path: 'quizz/play/:id',
+    component: FullScreenLayoutComponent,
+    children: [{ path: '', component: QuizzPlayComponent }],
   },
   {
     path: '**',

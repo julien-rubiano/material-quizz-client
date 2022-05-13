@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
-  dataSource: User[] = [];
+  dataSource = new MatTableDataSource<User>();
   isAdmin = false;
   currentUser!: User;
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'login', 'password', 'isAdmin', 'edit', 'delete'];
@@ -30,8 +31,13 @@ export class UsersListComponent implements OnInit {
 
   getUsers(): void {
     this.userService.getUsers().subscribe((users) => {
-      this.dataSource = users;
+      this.dataSource = new MatTableDataSource(users);
     });
+  }
+
+  search(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   edit(user: User) {

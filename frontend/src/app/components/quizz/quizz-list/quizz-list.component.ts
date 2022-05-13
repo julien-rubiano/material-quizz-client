@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-quizz-list',
@@ -12,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./quizz-list.component.css'],
 })
 export class QuizzListComponent implements OnInit {
-  dataSource: Quizz[] = [];
+  dataSource = new MatTableDataSource<Quizz>();
   isAdmin = false;
   currentUser!: User;
   displayedColumns: string[] = ['id', 'title', 'duration', 'play', 'edit', 'delete'];
@@ -31,15 +32,18 @@ export class QuizzListComponent implements OnInit {
 
   getQuizz(): void {
     this.quizzService.getQuizz().subscribe((quizz) => {
-      this.dataSource = quizz;
+      this.dataSource = new MatTableDataSource(quizz);
     });
+  }
+
+  search(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   edit(quizz: Quizz) {
     this.router.navigate([`/quizz/edit/${quizz.id}`]);
   }
-
-  play(quizz: Quizz) {}
 
   remove(quizz: Quizz) {
     this.quizzService.delete(quizz).subscribe(() => {

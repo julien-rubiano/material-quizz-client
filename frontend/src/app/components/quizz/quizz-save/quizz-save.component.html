@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="isAdmin">
   <form [formGroup]="quizzForm" (ngSubmit)="createQuizz()">
     <div class="container-nav">
       <button mat-flat-button color="basic" type="button" (click)="return()">Retour</button>

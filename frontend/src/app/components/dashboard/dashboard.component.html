@@ -1,12 +1,4 @@
-<div class="container">
-  <!-- <h1>Dashboard</h1>
-  <a mat-fab color="primary" routerLink="users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    <mat-icon>people</mat-icon>
-  </a>
-
-  <a mat-fab color="primary" routerLink="quizz" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    <mat-icon>sports_esports</mat-icon>
-  </a> -->
+<div class="container" *ngIf="isAdmin">
   <h1>Dashboard</h1>
   <div class="docs-component-category-list">
     <a

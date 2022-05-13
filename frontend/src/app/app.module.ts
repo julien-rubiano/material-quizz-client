@@ -36,6 +36,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.component';
 import { QuestionService } from './services/question.service';
 import { AnswerService } from './services/answer.service';
+import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AnswerService } from './services/answer.service';
     UsersSaveComponent,
     DashboardComponent,
     QuizzSaveComponent,
+    QuizzPlayComponent,
   ],
   imports: [
     BrowserModule,
