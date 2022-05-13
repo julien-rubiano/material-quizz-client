@@ -1,0 +1,56 @@
+<div class="container">
+  <h1>{{ title }}</h1>
+  <form [formGroup]="userForm" (ngSubmit)="createUser()">
+    <div class="container-nav">
+      <button mat-flat-button color="basic" type="button" (click)="return()">Retour</button>
+      <button
+        mat-flat-button
+        *ngIf="!isEditing"
+        class="pull-right"
+        color="primary"
+        type="submit"
+        [disabled]="!userForm.valid"
+      >
+        Créer
+      </button>
+    </div>
+
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput formControlName="firstName" (blur)="editFirstName($event)" />
+        <mat-icon matSuffix>fingerprint</mat-icon>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="lastName" (blur)="editLastName($event)" />
+        <mat-icon matSuffix>fingerprint</mat-icon>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login" (blur)="editLogin($event)" />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput formControlName="password" (blur)="editPassword($event)" />
+        <mat-icon matSuffix>password</mat-icon>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-slide-toggle formControlName="isAdmin" (change)="editIsAdmin($event)">
+        L'utilisateur est admin
+      </mat-slide-toggle>
+    </p>
+  </form>
+</div>

@@ -18,8 +18,8 @@ export class QuizzService {
     );
   }
 
-  getQuizzById(id: number): Observable<Quizz> {
-    return this.http.get<Quizz>(`${this.quizzUrl}/read-single.php?id=${id}`).pipe(
+  getQuizzById(quizzId: number): Observable<Quizz> {
+    return this.http.get<Quizz>(`${this.quizzUrl}/read-single.php?id=${quizzId}`).pipe(
       map((data) => data),
       catchError(handleError)
     );

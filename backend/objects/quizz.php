@@ -8,6 +8,7 @@ class Quizz
     public $title;
     public $description;
     public $isRandomQuestions;
+    public $duration;
 
     public function __construct($db)
     {
@@ -18,15 +19,6 @@ class Quizz
     {
         $query = "SELECT * FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    private function readById($id)
-    {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id);
         $stmt->execute();
         return $stmt;
     }
@@ -81,7 +73,8 @@ class Quizz
                 SET
                     title=:title,
                     description=:description,
-                    isRandomQuestions=:isRandomQuestions
+                    isRandomQuestions=:isRandomQuestions,
+                    duration=:duration
                 WHERE
                     id = :id";
 
@@ -97,6 +90,7 @@ class Quizz
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':isRandomQuestions', $this->isRandomQuestions);
+        $stmt->bindParam(':duration', $this->duration);
 
         // execute query
         if ($stmt->execute()) {

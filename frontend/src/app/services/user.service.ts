@@ -18,6 +18,13 @@ export class UserService {
     );
   }
 
+  getUserById(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/read-single.php?id=${userId}`).pipe(
+      map((data) => data),
+      catchError(handleError)
+    );
+  }
+
   save(user: User): Observable<User> {
     if (user.id) {
       return this.update(user);

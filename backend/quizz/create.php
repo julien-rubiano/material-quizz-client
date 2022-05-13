@@ -23,6 +23,7 @@ if (
     $quizz->title = $data->title;
     $quizz->description = $data->description;
     $quizz->isRandomQuestions = $data->isRandomQuestions === true ? 1 : 0;
+    $quizz->duration = $data->duration;
 
     $stmt = $quizz->create();
     $num = $stmt->rowCount();
@@ -37,7 +38,8 @@ if (
                 "id" => (int)$id,
                 "title" => $title,
                 "description" => $description,
-                "isRandomQuestions" => (bool)$isRandomQuestions
+                "isRandomQuestions" => (bool)$isRandomQuestions,
+                "duration" => (int)$duration
             );
         }
 

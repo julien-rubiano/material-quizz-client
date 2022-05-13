@@ -8,37 +8,31 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include_once '../config/database.php';
 include_once '../objects/quizz.php';
- 
+
 $database = new Database();
 $db = $database->getConnection();
- 
+
 $quizz = new Quizz($db);
 
 $stmt = $quizz->read();
 $num = $stmt->rowCount();
- 
-if($num>0){
- 
-    $quizz_arr=array();
- 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+$quizz_arr = [];
+
+if ($num > 0) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
- 
-        $quizz_item=array(
+
+        $quizz_item = array(
             "id" => (int)$id,
             "title" => $title,
             "description" => $description,
-            "isRandomQuestions" => (bool)$isRandomQuestions
+            "isRandomQuestions" => (bool)$isRandomQuestions,
+            "duration" => (int)$duration
         );
- 
+
         array_push($quizz_arr, $quizz_item);
     }
- 
-    http_response_code(200);
-    echo json_encode($quizz_arr);
-} else{
-    http_response_code(404);
-    echo json_encode(
-        array("message" => "No quizz found.")
-    );
 }
+
+http_response_code(200);
+echo json_encode($quizz_arr);

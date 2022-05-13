@@ -4,20 +4,21 @@ export interface Quizz {
   description: string;
   isRandomQuestions: boolean;
   questions?: Question[];
+  duration?: number;
 }
 
 export interface Question {
-  id: number;
+  id?: number;
   title: string;
   isRandomAnswers: boolean;
-  quizzId: number;
+  quizzId?: number;
   answers?: Answer[];
 }
 
 export interface Answer {
-  id: number;
+  id?: number;
   title: string;
   position: number;
-  questionId: number;
-  quizzId: number;
+  questionId?: number;
+  quizzId?: number;
 }

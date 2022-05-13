@@ -5,13 +5,12 @@ import { DashboardComponent } from 'src/app/components/dashboard/dashboard.compo
 import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-not-found.component';
 import { FullScreenLayoutComponent } from 'src/app/components/full-screen-layout/full-screen-layout.component';
 import { UsersListComponent } from 'src/app/components/users/users-list/users-list.component';
-import { UsersCreateComponent } from 'src/app/components/users/users-create/users-create.component';
+import { UsersSaveComponent } from 'src/app/components/users/users-save/users-save.component';
 import { QuizzListComponent } from 'src/app/components/quizz/quizz-list/quizz-list.component';
-import { QuizzCreateComponent } from 'src/app/components/quizz/quizz-create/quizz-create.component';
 import { MenuLayoutComponent } from 'src/app/components/menu-layout/menu-layout.component';
 import { AdminGuard } from './guards/admin-guard.service';
 import { AuthGuard } from './guards/auth-guard.service';
-import { QuizzEditComponent } from './components/quizz/quizz-edit/quizz-edit.component';
+import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.component';
 
 const routes: Routes = [
   {
@@ -27,7 +26,12 @@ const routes: Routes = [
       },
       {
         path: 'users/create',
-        component: UsersCreateComponent,
+        component: UsersSaveComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'users/edit/:id',
+        component: UsersSaveComponent,
         canActivate: [AdminGuard],
       },
       {
@@ -36,12 +40,12 @@ const routes: Routes = [
       },
       {
         path: 'quizz/create',
-        component: QuizzCreateComponent,
+        component: QuizzSaveComponent,
         canActivate: [AdminGuard],
       },
       {
         path: 'quizz/edit/:id',
-        component: QuizzEditComponent,
+        component: QuizzSaveComponent,
         canActivate: [AdminGuard],
       },
     ],

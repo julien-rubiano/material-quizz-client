@@ -1,9 +1,5 @@
-<div class="spinner" *ngIf="isLoading">
-  <mat-spinner></mat-spinner>
-</div>
-
-<div class="container" *ngIf="!isLoading">
-  <h1 class="pull-left">Quizz</h1>
+<div class="container">
+  <h1>Quizz</h1>
   <div class="container-nav">
     <h2 *ngIf="isAdmin">
       <a routerLink="/quizz/create">
@@ -20,6 +16,11 @@
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Titre</th>
       <td mat-cell *matCellDef="let quizz">{{ quizz.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef>Durée</th>
+      <td mat-cell *matCellDef="let quizz">{{ quizz.duration }} min</td>
     </ng-container>
 
     <ng-container matColumnDef="play">

@@ -13,11 +13,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatSliderModule } from '@angular/material/slider';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth-guard.service';
@@ -29,11 +30,10 @@ import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-no
 import { FullScreenLayoutComponent } from 'src/app/components/full-screen-layout/full-screen-layout.component';
 import { UsersListComponent } from 'src/app/components/users/users-list/users-list.component';
 import { QuizzListComponent } from 'src/app/components/quizz/quizz-list/quizz-list.component';
-import { UsersCreateComponent } from 'src/app/components/users/users-create/users-create.component';
-import { QuizzCreateComponent } from 'src/app/components/quizz/quizz-create/quizz-create.component';
+import { UsersSaveComponent } from 'src/app/components/users/users-save/users-save.component';
 import { MenuLayoutComponent } from 'src/app/components/menu-layout/menu-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { QuizzEditComponent } from './components/quizz/quizz-edit/quizz-edit.component';
+import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.component';
 import { QuestionService } from './services/question.service';
 import { AnswerService } from './services/answer.service';
 
@@ -46,10 +46,9 @@ import { AnswerService } from './services/answer.service';
     MenuLayoutComponent,
     UsersListComponent,
     QuizzListComponent,
-    UsersCreateComponent,
-    QuizzCreateComponent,
+    UsersSaveComponent,
     DashboardComponent,
-    QuizzEditComponent,
+    QuizzSaveComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +63,7 @@ import { AnswerService } from './services/answer.service';
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatSnackBarModule,
     MatSidenavModule,
     MatListModule,
     MatGridListModule,
@@ -75,7 +75,7 @@ import { AnswerService } from './services/answer.service';
     MatExpansionModule,
     MatCardModule,
     MatSelectModule,
-    MatProgressSpinnerModule,
+    MatSliderModule,
   ],
   providers: [
     UserService,
@@ -84,6 +84,7 @@ import { AnswerService } from './services/answer.service';
     AdminGuard,
     QuestionService,
     AnswerService,
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

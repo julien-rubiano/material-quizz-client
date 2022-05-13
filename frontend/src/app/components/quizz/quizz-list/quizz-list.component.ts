@@ -4,6 +4,7 @@ import { QuizzService } from 'src/app/services/quizz.service';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-quizz-list',
@@ -12,15 +13,18 @@ import { Router } from '@angular/router';
 })
 export class QuizzListComponent implements OnInit {
   dataSource: Quizz[] = [];
-  isLoading: boolean = false;
   isAdmin = false;
   currentUser!: User;
-  displayedColumns: string[] = ['id', 'title', 'play', 'edit', 'delete'];
+  displayedColumns: string[] = ['id', 'title', 'duration', 'play', 'edit', 'delete'];
 
-  constructor(private quizzService: QuizzService, private authService: AuthService, private router: Router) {}
+  constructor(
+    private quizzService: QuizzService,
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
-    this.isLoading = true;
     this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.getQuizz();
   }
@@ -28,7 +32,6 @@ export class QuizzListComponent implements OnInit {
   getQuizz(): void {
     this.quizzService.getQuizz().subscribe((quizz) => {
       this.dataSource = quizz;
-      this.isLoading = false;
     });
   }
 
@@ -39,7 +42,9 @@ export class QuizzListComponent implements OnInit {
   play(quizz: Quizz) {}
 
   remove(quizz: Quizz) {
-    this.quizzService.delete(quizz).subscribe();
-    this.getQuizz();
+    this.quizzService.delete(quizz).subscribe(() => {
+      this.getQuizz();
+      this.snackBar.open('Le quizz a bien été supprimé');
+    });
   }
 }

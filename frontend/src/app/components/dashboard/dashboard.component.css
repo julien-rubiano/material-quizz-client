@@ -1,24 +1,57 @@
-.header-image {
-  background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
-  background-size: cover;
+.docs-component-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.mat-fab {
-  margin: 0 40px 40px 0;
-  width: 100px;
-  height: 100px;
-  line-height: 42px !important;
+.docs-component-category-list-item,
+.docs-component-category-list-item:active,
+.docs-component-category-list-item:hover,
+.docs-component-category-list-item:focus {
+  text-decoration: none;
 }
 
-.mat-icon {
-  font-size: 42px;
-  height: 100px;
-  width: 100px;
-  line-height: 64px;
-}
-
-.mat-fab .mat-button-wrapper {
-  padding: 16px 0;
+.docs-component-category-list-item {
   display: inline-block;
-  line-height: 42px !important;
+  margin: 20px;
+  vertical-align: top;
+  width: 280px;
+}
+
+.docs-component-category-list-card {
+  overflow: hidden;
+}
+.docs-component-category-list-card {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: white;
+}
+
+.docs-component-category-list-card-image-wrapper {
+  height: 156px;
+}
+.docs-component-category-list-card-image-wrapper {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.docs-component-category-list-item .docs-component-category-list-card-title {
+  align-items: center;
+  display: flex;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.docs-component-category-list-card-title {
+  color: #000000de;
+}
+
+.docs-component-category-list-card-summary {
+  padding: 0 15px 15px;
+  min-height: 2.4em;
+  font-size: 15px;
+}
+
+.docs-component-category-list-card-summary {
+  color: #0000008a;
 }
