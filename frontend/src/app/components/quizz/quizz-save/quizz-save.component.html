@@ -57,7 +57,7 @@
       <div formArrayName="questions">
         <mat-card *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
           <mat-card-subtitle>
-            <button mat-icon-button type="button" (click)="removeQuestion(i)">
+            <button mat-icon-button type="button" matTooltip="Supprimer la question" (click)="removeQuestion(i)">
               <mat-icon>delete</mat-icon>
             </button>
           </mat-card-subtitle>
@@ -82,8 +82,18 @@
                   <button
                     matSuffix
                     mat-icon-button
-                    class="answer-remove-btn"
                     type="button"
+                    matTooltip="Définir comme réponse valide"
+                    (click)="editAnswerIsValid(answer)"
+                  >
+                    <mat-icon *ngIf="!isAnswerValid(answer)">check_box_outline_blank</mat-icon>
+                    <mat-icon *ngIf="isAnswerValid(answer)">check_box</mat-icon>
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Supprimer la réponse"
                     (click)="removeAnswer(i, j)"
                   >
                     <mat-icon>clear</mat-icon>

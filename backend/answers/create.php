@@ -27,6 +27,7 @@ if (
     $answer->position = $data->position;
     $answer->questionId = $data->questionId;
     $answer->quizzId = $data->quizzId;
+    $answer->isValid = $data->isValid === true ? 1 : 0;
 
     $stmt = $answer->create();
     $num = $stmt->rowCount();
@@ -42,7 +43,8 @@ if (
                 "title" => $title,
                 "questionId" => (int)$questionId,
                 "quizzId" => (int)$quizzId,
-                "position" => (int)$position
+                "position" => (int)$position,
+                "isValid" => (bool)$isValid
             );
         }
 

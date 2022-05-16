@@ -83,7 +83,7 @@ class Answer
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    title=:title, position=:position, questionId=:questionId, quizzId=:quizzId";
+                    title=:title, position=:position, questionId=:questionId, quizzId=:quizzId, isValid=:isValid";
         $stmt = $this->conn->prepare($query);
 
         // sanitize
@@ -91,12 +91,14 @@ class Answer
         $this->position = htmlspecialchars(strip_tags($this->position));
         $this->questionId = htmlspecialchars(strip_tags($this->questionId));
         $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
+        $this->isValid = htmlspecialchars(strip_tags($this->isValid));
 
         // bind values
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":position", $this->position);
         $stmt->bindParam(":questionId", $this->questionId);
         $stmt->bindParam(":quizzId", $this->quizzId);
+        $stmt->bindParam(":isValid", $this->isValid);
 
         // execute query
         if ($stmt->execute()) {
@@ -116,7 +118,8 @@ class Answer
                     title=:title,
                     position=:position,
                     questionId=:questionId,
-                    quizzId=:quizzId
+                    quizzId=:quizzId,
+                    isValid=:isValid
                 WHERE
                     id = :id";
 
@@ -129,7 +132,7 @@ class Answer
         $this->position = htmlspecialchars(strip_tags($this->position));
         $this->questionId = htmlspecialchars(strip_tags($this->questionId));
         $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
-
+        $this->isValid = htmlspecialchars(strip_tags($this->isValid));
 
         // bind new values
         $stmt->bindParam(':id', $this->id);
@@ -137,6 +140,7 @@ class Answer
         $stmt->bindParam(':position', $this->position);
         $stmt->bindParam(':questionId', $this->questionId);
         $stmt->bindParam(':quizzId', $this->quizzId);
+        $stmt->bindParam(":isValid", $this->isValid);
 
         // execute the query
         if ($stmt->execute()) {

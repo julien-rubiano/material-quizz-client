@@ -94,6 +94,7 @@ export class QuizzSaveComponent implements OnInit {
                 id: a.id,
                 title: a.title,
                 position: a.position,
+                isValid: a.isValid,
                 questionId: a.questionId,
                 quizzId: quizzResponse.id,
               });
@@ -208,6 +209,7 @@ export class QuizzSaveComponent implements OnInit {
       id: [''],
       title: [''],
       position: [''],
+      isValid: [''],
       questionId: [''],
     });
   }
@@ -232,6 +234,7 @@ export class QuizzSaveComponent implements OnInit {
       id: answerValue.id,
       title: answerValue.title,
       position: answerValue.position,
+      isValid: answerValue.isValid,
       questionId: answerValue.questionId,
       quizzId: answerValue.quizzId,
     };
@@ -241,6 +244,19 @@ export class QuizzSaveComponent implements OnInit {
   editAnswerTitle(event: any, answer: AbstractControl) {
     answer.patchValue({
       title: event.target.value,
+    });
+
+    this.saveQuizz(this.quizzForm.value);
+  }
+
+  isAnswerValid(answer: AbstractControl) {
+    return answer.value.isValid;
+  }
+
+  editAnswerIsValid(answer: AbstractControl) {
+    let newValue = !answer.value.isValid;
+    answer.patchValue({
+      isValid: newValue,
     });
 
     this.saveQuizz(this.quizzForm.value);

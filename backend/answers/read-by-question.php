@@ -29,7 +29,8 @@ if ($num > 0) {
             "title" => $title,
             "questionId" => (int)$questionId,
             "quizzId" => (int)$quizzId,
-            "position" => (int)$position
+            "position" => (int)$position,
+            "isValid" => (bool)$isValid
         );
 
         array_push($answer_arr, $answer_item);

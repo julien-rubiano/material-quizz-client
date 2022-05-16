@@ -19,6 +19,7 @@ export interface Answer {
   id?: number;
   title: string;
   position: number;
+  isValid: boolean;
   questionId?: number;
   quizzId?: number;
 }
