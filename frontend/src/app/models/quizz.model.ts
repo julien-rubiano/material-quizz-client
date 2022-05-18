@@ -4,7 +4,7 @@ export interface Quizz {
   description: string;
   isRandomQuestions: boolean;
   questions?: Question[];
-  duration?: number;
+  duration: number;
 }
 
 export interface Question {
@@ -12,6 +12,7 @@ export interface Question {
   title: string;
   isRandomAnswers: boolean;
   quizzId?: number;
+  position?: number;
   answers?: Answer[];
 }
 

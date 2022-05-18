@@ -11,7 +11,7 @@ import { handleError } from './services.utils';
   providedIn: 'root',
 })
 export class AuthService {
-  private usersUrl = 'https://soat-agile.000webhostapp.com/api/users';
+  private usersUrl = 'http://localhost/api/users';
   private storageKey = 'user';
 
   constructor(private http: HttpClient, private router: Router) {}

@@ -7,7 +7,7 @@ import { handleError } from './services.utils';
 
 @Injectable()
 export class QuestionService {
-  private questionUrl = 'https://soat-agile.000webhostapp.com/api/questions';
+  private questionUrl = 'http://localhost/api/questions';
 
   constructor(private http: HttpClient) {}
 

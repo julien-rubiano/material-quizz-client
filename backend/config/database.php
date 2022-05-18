@@ -3,9 +3,9 @@ class Database{
  
     // specify your own database credentials
     private $host = "localhost";
-    private $db_name = "id18888379_soat_agile";
-    private $username = "id18888379_root";
-    private $password = "=7<VUB1Ata3CkRr!";
+    private $db_name = "soat_agile";
+    private $username = "root";
+    private $password = "";
     public $conn;
  
     // get the database connection
@@ -23,4 +23,3 @@ class Database{
         return $this->conn;
     }
 }
-?>

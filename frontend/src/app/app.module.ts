@@ -9,12 +9,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,6 +41,7 @@ import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.com
 import { QuestionService } from './services/question.service';
 import { AnswerService } from './services/answer.service';
 import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.component';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @NgModule({
   declarations: [
@@ -75,11 +79,14 @@ import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.com
     MatChipsModule,
     MatInputModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     MatExpansionModule,
     MatCardModule,
     MatSelectModule,
     MatSliderModule,
     MatTooltipModule,
+    MatStepperModule,
+    MatProgressBarModule,
   ],
   providers: [
     UserService,
@@ -89,6 +96,7 @@ import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.com
     QuestionService,
     AnswerService,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
+    { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

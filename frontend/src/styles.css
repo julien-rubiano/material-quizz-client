@@ -74,3 +74,27 @@ h2 {
 .mat-slide-toggle {
   margin: 15px 0;
 }
+
+.mat-vertical-content {
+  padding: 0 48px 24px 48px !important;
+}
+
+.mat-vertical-content strong {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.mat-progress-bar-fill::after {
+  background-color: #f6a000;
+}
+
+.mat-progress-bar-buffer,
+.mat-progress-bar-background {
+  fill: #1d1d1b;
+  background-color: #1d1d1b;
+}
+
+.mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #4ab69a;
+}

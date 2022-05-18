@@ -82,8 +82,11 @@ class Quizz
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->title = htmlspecialchars(strip_tags($this->title));
         $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->title = htmlspecialchars(strip_tags($this->title));
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->isRandomQuestions = htmlspecialchars(strip_tags($this->isRandomQuestions));
+        $this->duration = htmlspecialchars(strip_tags($this->duration));
 
         // bind new values
         $stmt->bindParam(':id', $this->id);
