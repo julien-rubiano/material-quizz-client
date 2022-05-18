@@ -176,6 +176,38 @@ export class QuizzSaveComponent implements OnInit {
     });
   }
 
+  duplicateQuestion(questionToDuplicate: AbstractControl) {
+    let newQuestion = this.newQuestion();
+    newQuestion.patchValue({
+      title: questionToDuplicate.value.title,
+      isRandomAnswers: questionToDuplicate.value.isRandomAnswers,
+      quizzId: questionToDuplicate.value.quizzId,
+    });
+
+    this.questionService.save(newQuestion.value).subscribe((questionResponse) => {
+      newQuestion.patchValue({ id: questionResponse.id });
+      this.questions.push(newQuestion);
+      (<FormArray>newQuestion.get('answers')).removeAt(0);
+
+      let answersToDuplicate = questionToDuplicate.get('answers');
+      if (!!answersToDuplicate && answersToDuplicate.value.length > 0) {
+        answersToDuplicate.value.forEach((answerToDuplicate: Answer) => {
+          let newAnswer = this.newAnswer();
+          newAnswer.patchValue({
+            title: answerToDuplicate.title,
+            isValid: answerToDuplicate.isValid,
+            questionId: questionResponse.id,
+            quizzId: answerToDuplicate.quizzId,
+          });
+          this.answerService.save(newAnswer.value).subscribe((answerResponse) => {
+            newAnswer.patchValue({ id: answerResponse.id });
+            (<FormArray>newQuestion.get('answers')).push(newAnswer);
+          });
+        });
+      }
+    });
+  }
+
   /**
    * Remove a question from the quizz
    * @param questionIndex - index of the question to be removed
