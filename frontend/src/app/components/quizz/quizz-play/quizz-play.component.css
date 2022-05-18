@@ -14494,6 +14494,15 @@ p {
   margin-top: 20px;
 }
 
+.mat-h2,
+.mat-title,
+.mat-typography .mat-h2,
+.mat-typography .mat-title,
+.mat-typography h2 {
+  font: 500 20px/32px Raleway, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+
 @media screen and (min-width: 1024px) {
   .mat-flat-button {
     font-size: 14px;

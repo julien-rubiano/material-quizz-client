@@ -68,6 +68,13 @@ export class QuizzPlayComponent implements OnInit {
               answers.push(a);
             });
 
+          if (q.isRandomAnswers) {
+            answers = answers
+              .map((value) => ({ value, sort: Math.random() }))
+              .sort((a, b) => a.sort - b.sort)
+              .map(({ value }) => value);
+          }
+
           let question: Question = {
             id: q.id,
             title: q.title.replace(new RegExp('\n', 'g'), '<br>'),
@@ -78,6 +85,13 @@ export class QuizzPlayComponent implements OnInit {
           questions.push(question);
           questionPosition++;
         });
+      }
+
+      if (this.quizz.isRandomQuestions) {
+        questions = questions
+          .map((value) => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value);
       }
 
       this.quizz.questions = questions;

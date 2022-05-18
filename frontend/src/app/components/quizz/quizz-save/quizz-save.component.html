@@ -57,6 +57,7 @@
       <div formArrayName="questions">
         <mat-card *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
           <mat-card-subtitle>
+            <span class="question-number">Question {{ i + 1 }}</span>
             <button mat-icon-button type="button" matTooltip="Supprimer la question" (click)="removeQuestion(i)">
               <mat-icon>delete</mat-icon>
             </button>

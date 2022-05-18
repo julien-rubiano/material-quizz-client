@@ -157,7 +157,7 @@
                   <mat-step *ngFor="let question of quizz.questions; let i = index">
                     <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
                     <h3>Question {{ i + 1 }} sur {{ questionsSize() }}</h3>
-                    <strong [innerHTML]="question.title"></strong>
+                    <h5 [innerHTML]="question.title"></h5>
                     <div>
                       <div *ngFor="let answer of question.answers">
                         <mat-checkbox>{{ answer.title }}</mat-checkbox>
