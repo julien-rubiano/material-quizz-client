@@ -117,28 +117,36 @@ export class QuizzSaveComponent implements OnInit {
     this.quizzForm.patchValue({
       title: event.target.value,
     });
-    this.quizzService.save(this.quizzForm.value).subscribe();
+    if (this.isEditing) {
+      this.quizzService.save(this.quizzForm.value).subscribe();
+    }
   }
 
   editQuizzDescription(event: any) {
     this.quizzForm.patchValue({
       description: event.target.value,
     });
-    this.quizzService.save(this.quizzForm.value).subscribe();
+    if (this.isEditing) {
+      this.quizzService.save(this.quizzForm.value).subscribe();
+    }
   }
 
   editQuizzIsRandomQuestions(event: MatSlideToggleChange) {
     this.quizzForm.patchValue({
       isRandomQuestions: event.checked,
     });
-    this.quizzService.save(this.quizzForm.value).subscribe();
+    if (this.isEditing) {
+      this.quizzService.save(this.quizzForm.value).subscribe();
+    }
   }
 
   editQuizzDuration(event: MatSliderChange) {
     this.quizzForm.patchValue({
       duration: event.value,
     });
-    this.quizzService.save(this.quizzForm.value).subscribe();
+    if (this.isEditing) {
+      this.quizzService.save(this.quizzForm.value).subscribe();
+    }
   }
 
   /**
