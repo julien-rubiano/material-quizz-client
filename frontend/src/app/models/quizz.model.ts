@@ -12,14 +12,12 @@ export interface Question {
   title: string;
   isRandomAnswers: boolean;
   quizzId?: number;
-  position?: number;
   answers?: Answer[];
 }
 
 export interface Answer {
   id?: number;
   title: string;
-  position: number;
   isValid: boolean;
   questionId?: number;
   quizzId?: number;

@@ -29,7 +29,6 @@ if ($num > 0) {
             "title" => $title,
             "questionId" => (int)$questionId,
             "quizzId" => (int)$quizzId,
-            "position" => (int)$position,
             "isValid" => (bool)$isValid
         );
 

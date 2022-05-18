@@ -6,9 +6,9 @@ class Answer
 
     public $id;
     public $title;
-    public $position;
     public $questionId;
     public $quizzId;
+    public $isValid;
 
     public function __construct($db)
     {
@@ -83,19 +83,17 @@ class Answer
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    title=:title, position=:position, questionId=:questionId, quizzId=:quizzId, isValid=:isValid";
+                    title=:title, questionId=:questionId, quizzId=:quizzId, isValid=:isValid";
         $stmt = $this->conn->prepare($query);
 
         // sanitize
         $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->position = htmlspecialchars(strip_tags($this->position));
         $this->questionId = htmlspecialchars(strip_tags($this->questionId));
         $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
         $this->isValid = htmlspecialchars(strip_tags($this->isValid));
 
         // bind values
         $stmt->bindParam(":title", $this->title);
-        $stmt->bindParam(":position", $this->position);
         $stmt->bindParam(":questionId", $this->questionId);
         $stmt->bindParam(":quizzId", $this->quizzId);
         $stmt->bindParam(":isValid", $this->isValid);
@@ -116,7 +114,6 @@ class Answer
                     " . $this->table_name . "
                 SET
                     title=:title,
-                    position=:position,
                     questionId=:questionId,
                     quizzId=:quizzId,
                     isValid=:isValid
@@ -129,7 +126,6 @@ class Answer
         // sanitize
         $this->id = htmlspecialchars(strip_tags($this->id));
         $this->title = htmlspecialchars(strip_tags($this->title));
-        $this->position = htmlspecialchars(strip_tags($this->position));
         $this->questionId = htmlspecialchars(strip_tags($this->questionId));
         $this->quizzId = htmlspecialchars(strip_tags($this->quizzId));
         $this->isValid = htmlspecialchars(strip_tags($this->isValid));
@@ -137,7 +133,6 @@ class Answer
         // bind new values
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':title', $this->title);
-        $stmt->bindParam(':position', $this->position);
         $stmt->bindParam(':questionId', $this->questionId);
         $stmt->bindParam(':quizzId', $this->quizzId);
         $stmt->bindParam(":isValid", $this->isValid);

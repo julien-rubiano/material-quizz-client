@@ -93,7 +93,6 @@ export class QuizzSaveComponent implements OnInit {
               let answerFormGroup: FormGroup = this.fb.group({
                 id: a.id,
                 title: a.title,
-                position: a.position,
                 isValid: a.isValid,
                 questionId: a.questionId,
                 quizzId: quizzResponse.id,
@@ -118,28 +117,28 @@ export class QuizzSaveComponent implements OnInit {
     this.quizzForm.patchValue({
       title: event.target.value,
     });
-    this.saveQuizz(this.quizzForm.value);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editQuizzDescription(event: any) {
     this.quizzForm.patchValue({
       description: event.target.value,
     });
-    this.saveQuizz(this.quizzForm.value);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editQuizzIsRandomQuestions(event: MatSlideToggleChange) {
     this.quizzForm.patchValue({
       isRandomQuestions: event.checked,
     });
-    this.saveQuizz(this.quizzForm.value);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editQuizzDuration(event: MatSliderChange) {
     this.quizzForm.patchValue({
       duration: event.value,
     });
-    this.saveQuizz(this.quizzForm.value);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   /**
@@ -166,8 +165,15 @@ export class QuizzSaveComponent implements OnInit {
    * Add a question to existing quizz
    */
   addQuestion() {
-    this.questions.push(this.newQuestion());
-    this.saveQuizz(this.quizzForm.value);
+    let newQuestion = this.newQuestion();
+    newQuestion.patchValue({ quizzId: this.quizzForm.value.id });
+    this.questionService.save(newQuestion.value).subscribe((questionResponse) => {
+      newQuestion.patchValue({ id: questionResponse.id });
+      this.questions.push(newQuestion);
+      let questionIndex = this.questions.controls.findIndex((c) => c.value.id === questionResponse.id);
+      this.getAnswersFormArray(questionIndex).removeAt(0);
+      this.addAnswer(questionIndex);
+    });
   }
 
   /**
@@ -189,16 +195,14 @@ export class QuizzSaveComponent implements OnInit {
     question.patchValue({
       title: event.target.value,
     });
-
-    this.saveQuizz(this.quizzForm.value);
+    this.questionService.save(question.value).subscribe();
   }
 
   editQuestionIsRandomAnswers(event: MatSlideToggleChange, question: AbstractControl) {
     question.patchValue({
       isRandomAnswers: event.checked,
     });
-
-    this.saveQuizz(this.quizzForm.value);
+    this.questionService.save(question.value).subscribe();
   }
 
   /**
@@ -208,9 +212,9 @@ export class QuizzSaveComponent implements OnInit {
     return this.fb.group({
       id: [''],
       title: [''],
-      position: [''],
       isValid: [''],
       questionId: [''],
+      quizzId: [''],
     });
   }
 
@@ -219,8 +223,13 @@ export class QuizzSaveComponent implements OnInit {
    * @param questionIndex - index of the question selected
    */
   addAnswer(questionIndex: number) {
-    this.getAnswersFormArray(questionIndex).push(this.newAnswer());
-    this.saveQuizz(this.quizzForm.value);
+    let newAnswer = this.newAnswer();
+    let question = this.questions.at(questionIndex);
+    newAnswer.patchValue({ quizzId: this.quizzForm.value.id, questionId: question.value.id });
+    this.answerService.save(newAnswer.value).subscribe((answerResponse) => {
+      newAnswer.patchValue({ id: answerResponse.id });
+      (<FormArray>question.get('answers')).push(newAnswer);
+    });
   }
 
   /**
@@ -233,7 +242,6 @@ export class QuizzSaveComponent implements OnInit {
     let answer: Answer = {
       id: answerValue.id,
       title: answerValue.title,
-      position: answerValue.position,
       isValid: answerValue.isValid,
       questionId: answerValue.questionId,
       quizzId: answerValue.quizzId,
@@ -245,8 +253,7 @@ export class QuizzSaveComponent implements OnInit {
     answer.patchValue({
       title: event.target.value,
     });
-
-    this.saveQuizz(this.quizzForm.value);
+    this.answerService.save(answer.value).subscribe();
   }
 
   isAnswerValid(answer: AbstractControl) {
@@ -258,8 +265,7 @@ export class QuizzSaveComponent implements OnInit {
     answer.patchValue({
       isValid: newValue,
     });
-
-    this.saveQuizz(this.quizzForm.value);
+    this.answerService.save(answer.value).subscribe();
   }
 
   /**
@@ -302,45 +308,6 @@ export class QuizzSaveComponent implements OnInit {
         this.snackBar.open('Le quizz a bien été créé, vous passez en mode édition');
         this.router.navigate([`/quizz/edit/${quizzResponse.id}`]);
       });
-    }
-  }
-
-  /**
-   * Save the quizz to the database
-   */
-  private saveQuizz(quizz: Quizz) {
-    if (this.isEditing && this.quizzForm.status === 'VALID') {
-      // save quizz
-      this.quizzService.save(quizz).subscribe((quizzResponse) => {
-        //save questions
-        if (!!quizz.questions?.length && quizz.questions?.length > 0) {
-          quizz.questions?.forEach((q) => {
-            q.quizzId = quizzResponse.id;
-            this.questionService.save(q).subscribe((questionResponse) => {
-              let questionIndex = this.questions.controls.findIndex((c) => c.value.id === q.id);
-              this.questions.at(questionIndex).patchValue({ id: questionResponse.id });
-
-              //save answers
-              if (!!q.answers?.length && q.answers?.length > 0) {
-                let answerPosition = 1;
-                q.answers?.forEach((a) => {
-                  a.quizzId = questionResponse.quizzId;
-                  a.questionId = questionResponse.id;
-                  a.position = answerPosition;
-                  this.answerService.save(a).subscribe((answerResponse) => {
-                    let answerIndex = this.getAnswersFormArray(questionIndex).controls.findIndex(
-                      (c) => c.value.id === a.id
-                    );
-                    this.getAnswersFormArray(questionIndex).at(answerIndex).patchValue({ id: answerResponse.id });
-                    answerPosition++;
-                  });
-                });
-              }
-            });
-          });
-        }
-      });
-      console.log(this.questions);
     }
   }
 }

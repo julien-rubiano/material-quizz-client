@@ -72,7 +72,6 @@ export class QuizzPlayComponent implements OnInit {
             isRandomAnswers: q.isRandomAnswers,
             quizzId: q.quizzId,
             answers: answers,
-            position: questionPosition,
           };
           questions.push(question);
           questionPosition++;

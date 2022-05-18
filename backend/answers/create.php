@@ -18,13 +18,11 @@ $data = json_decode(file_get_contents("php://input"));
 
 // make sure data is not empty
 if (
-    !empty($data->position) &&
     !empty($data->questionId) &&
     !empty($data->quizzId)
 
 ) {
     $answer->title = $data->title;
-    $answer->position = $data->position;
     $answer->questionId = $data->questionId;
     $answer->quizzId = $data->quizzId;
     $answer->isValid = $data->isValid === true ? 1 : 0;
@@ -43,7 +41,6 @@ if (
                 "title" => $title,
                 "questionId" => (int)$questionId,
                 "quizzId" => (int)$quizzId,
-                "position" => (int)$position,
                 "isValid" => (bool)$isValid
             );
         }

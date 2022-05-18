@@ -131,7 +131,7 @@
                 <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
                 <mat-stepper *ngIf="quizz && countdown | async">
                   <mat-step *ngFor="let question of quizz.questions">
-                    <ng-template matStepLabel>Question {{ question.position }}</ng-template>
+                    <ng-template matStepLabel>Question</ng-template>
                     <strong [innerHTML]="question.title"></strong>
                     <div>
                       <div *ngFor="let answer of question.answers">
