@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, interval, map, Observable, shareReplay } from 'rxjs';
 import { Countdown } from 'src/app/models/countdown.model';
@@ -17,12 +17,14 @@ export class QuizzPlayComponent implements OnInit {
   isStarted = false;
   countdown!: Observable<Countdown>;
   countdownMinutes = 0;
+  isQuestionsDisplay = false;
 
   constructor(
     private route: ActivatedRoute,
     private quizzService: QuizzService,
     private questionService: QuestionService,
-    private answerService: AnswerService
+    private answerService: AnswerService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -121,6 +123,20 @@ export class QuizzPlayComponent implements OnInit {
       map((x) => this.setCountdown(startDate, endDate)),
       shareReplay(1)
     );
+  }
+
+  showQuestions() {
+    this.isQuestionsDisplay = true;
+    this.renderer.addClass(document.getElementsByClassName('mat-horizontal-stepper-header-container')[0], 'show');
+  }
+
+  hideQuestions() {
+    this.isQuestionsDisplay = false;
+    this.renderer.removeClass(document.getElementsByClassName('mat-horizontal-stepper-header-container')[0], 'show');
+  }
+
+  questionsSize(): number {
+    return this.quizz.questions?.length || 0;
   }
 
   submitQuizz(): void {}

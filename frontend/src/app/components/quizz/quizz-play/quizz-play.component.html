@@ -129,9 +129,34 @@
                   <mat-progress-bar mode="determinate" [value]="c.progress"></mat-progress-bar>
                 </div>
                 <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
+                <div *ngIf="quizz && countdown | async">
+                  <button
+                    mat-flat-button
+                    type="button"
+                    color="basic"
+                    class="display-questions-btn"
+                    (click)="showQuestions()"
+                    *ngIf="!isQuestionsDisplay"
+                  >
+                    <mat-icon>question_answer</mat-icon>
+                    Afficher les questions
+                  </button>
+                  <button
+                    mat-flat-button
+                    type="button"
+                    color="basic"
+                    class="display-questions-btn"
+                    (click)="hideQuestions()"
+                    *ngIf="isQuestionsDisplay"
+                  >
+                    <mat-icon>question_answer</mat-icon>
+                    Masquer les questions
+                  </button>
+                </div>
                 <mat-stepper *ngIf="quizz && countdown | async">
-                  <mat-step *ngFor="let question of quizz.questions">
-                    <ng-template matStepLabel>Question</ng-template>
+                  <mat-step *ngFor="let question of quizz.questions; let i = index">
+                    <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
+                    <h3>Question {{ i + 1 }} sur {{ questionsSize() }}</h3>
                     <strong [innerHTML]="question.title"></strong>
                     <div>
                       <div *ngFor="let answer of question.answers">
@@ -139,7 +164,9 @@
                       </div>
                     </div>
                     <div class="stepper-buttons">
-                      <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
+                      <button mat-flat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">
+                        Précédent
+                      </button>
                       <button mat-flat-button matStepperNext type="button" class="pull-right" color="primary">
                         Suivant
                       </button>
@@ -148,9 +175,11 @@
                   <mat-step>
                     <ng-template matStepLabel>Fin</ng-template>
                     <p>Le quizz est terminé. Souhaitez-vous confirmer vos réponses et afficher le résultat obtenu ?</p>
-                    <div>
-                      <button mat-flat-button matStepperPrevious>Précédent</button>
-                      <button mat-flat-button (click)="submitQuizz()">Terminer</button>
+                    <div class="stepper-buttons">
+                      <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
+                      <button mat-flat-button type="button" class="pull-right" color="accent" (click)="submitQuizz()">
+                        Terminer
+                      </button>
                     </div>
                   </mat-step>
                 </mat-stepper>

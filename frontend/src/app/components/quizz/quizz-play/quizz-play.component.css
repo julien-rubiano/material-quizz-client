@@ -14430,5 +14430,81 @@ p {
 }
 
 .stepper-buttons {
+  margin-top: 60px;
+}
+
+.mat-flat-button {
+  -webkit-appearance: none;
+  align-items: center;
+  border: 1px solid transparent;
+  box-shadow: none;
+  display: inline-flex;
+  line-height: 1.5;
+  position: relative;
+  vertical-align: top;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: calc(0.5em - 1px);
+  text-align: center;
+  white-space: nowrap;
+  border-width: 1px;
+  height: 2.5rem;
+  border-radius: 50px;
+  background-color: #1d1d1b;
+  color: #fff;
+  border-color: #1d1d1b;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: 0.15s ease-out;
+}
+
+.mat-flat-button.mat-primary {
+  background-color: #1d1d1b;
+  color: #fff;
+  border-color: #1d1d1b;
+}
+
+.mat-flat-button.mat-primary:hover {
+  background-color: #ffe60b;
+  color: #1d1d1b;
+  border-color: #ffe60b;
+}
+
+.mat-flat-button.mat-accent {
+  background-color: #ffe60b;
+  color: #1d1d1b;
+  border-color: #ffe60b;
+}
+
+.mat-flat-button.mat-accent:hover {
+  background-color: #1d1d1b;
+  color: #ffe60b;
+  border-color: #1d1d1b;
+}
+
+.display-questions-btn {
+  background-color: #5cc4f1;
+  border-color: #5cc4f1;
+  color: #ffffff;
+  width: 17rem !important;
+  width: 300px !important;
   margin-top: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+  .mat-flat-button {
+    font-size: 14px;
+    font-size: 0.875rem;
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .mat-flat-button {
+    width: 200px;
+    width: 12.5rem;
+  }
 }

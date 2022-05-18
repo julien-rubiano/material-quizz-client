@@ -75,11 +75,12 @@ h2 {
   margin: 15px 0;
 }
 
-.mat-vertical-content {
-  padding: 0 48px 24px 48px !important;
+.mat-horizontal-content-container {
+  padding: 30px 0 0 0 !important;
+  width: 100%;
 }
 
-.mat-vertical-content strong {
+.mat-horizontal-content strong {
   display: block;
   margin-bottom: 15px;
 }
@@ -97,4 +98,29 @@ h2 {
 .mat-progress-spinner circle,
 .mat-spinner circle {
   stroke: #4ab69a;
+}
+
+.mat-horizontal-stepper-header-container {
+  display: none !important;
+  width: 100%;
+  margin-top: -30px;
+  transition: 0.3s ease-out;
+}
+
+.mat-horizontal-stepper-header-container.show {
+  display: block !important;
+}
+
+.mat-stepper-horizontal-line {
+  display: none !important;
+}
+
+.mat-step-header {
+  float: left;
+}
+
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: #5cc4f1 !important;
 }
