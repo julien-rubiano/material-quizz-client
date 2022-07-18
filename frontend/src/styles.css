@@ -21,10 +21,6 @@ body {
   margin-bottom: 40px;
 }
 
-.mat-card {
-  margin-bottom: 40px;
-}
-
 .container {
   max-width: 1000px;
   margin: 0 auto 60px auto;
@@ -36,6 +32,8 @@ body {
 
 .mat-card {
   width: 100%;
+  max-width: 968px;
+  margin-bottom: 40px;
 }
 
 .mat-h1,
@@ -117,12 +115,31 @@ h2 {
 
 .mat-step-header {
   float: left;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  box-sizing: content-box;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 150px;
+}
+
+.mat-step-header .mat-step-icon {
+  background-color: #1d1d1b;
+  color: #fff;
+  height: 34px;
+  width: 34px;
 }
 
 .mat-step-header .mat-step-icon-selected,
 .mat-step-header .mat-step-icon-state-done,
 .mat-step-header .mat-step-icon-state-edit {
-  background-color: #5cc4f1 !important;
+  background-color: #ed6965 !important;
+}
+
+.mat-horizontal-stepper-header[aria-selected="true"] {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 50px;
 }
 
 .mat-card-subtitle .question-number {
@@ -153,12 +170,12 @@ h2 {
 
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: #4ab69a;
+  background-color: #ed6965;
 }
 
 .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-  background: #4ab69a;
+  background: #ed6965;
 }
 
 .mat-h1,

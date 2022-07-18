@@ -1,193 +1,101 @@
-<div
-  class="layout--single page-formation orange-background theme--orange"
-  [class.orange-body]="!isStarted"
-  *ngIf="quizz"
->
-  <header class="header is-green">
-    <div class="container container--header header__inner">
-      <div class="navbar">
-        <div class="navbar-brand">
-          <a class="header__logo" href="/">
-            <svg height="84.905" version="1.1" viewBox="0 0 200 84.905">
-              <defs>
-                <clipPath id="clipPath18">
-                  <path d="M 0,279.33 H 414.477 V 0 H 0 Z"></path>
-                </clipPath>
-              </defs>
-              <g transform="matrix(1.3333 0 0 -1.3333 -87.361 173.78)">
-                <g transform="matrix(.52917 0 0 .52917 30.849 31.383)">
-                  <g clip-path="url(#clipPath18)">
-                    <g transform="translate(124.18 180.16)">
-                      <path
-                        d="m0 0c-5.161 4.508-12.558 6.771-22.192 6.771-8.85 0-15.996-2.02-21.426-6.058-5.431-4.029-8.459-9.694-9.103-16.987-0.409-4.683 0.357-8.573 2.306-11.644 1.941-3.09 4.63-5.605 8.059-7.555 3.429-1.949 8.285-4.229 14.568-6.831 5.857-2.524 10.365-4.735 13.541-6.64 3.177-1.915 5.466-3.952 6.885-6.119 1.418-2.175 1.992-4.778 1.723-7.815-0.409-4.682-2.472-8.441-6.188-11.261s-8.92-4.229-15.604-4.229c-7.371 0-13.01 1.54-16.909 4.621-3.89 3.08-5.622 7.136-5.179 12.175l0.305 3.515c0.078 0.863-0.322 1.297-1.183 1.297h-6.38c-0.87 0-1.34-0.434-1.418-1.297l-0.357-4.038c-0.644-7.38 1.679-13.28 6.98-17.701 5.3-4.43 12.845-6.641 22.653-6.641 9.547 0 17.205 2.167 22.966 6.51 5.762 4.334 8.955 10.148 9.591 17.441 0.418 4.691-0.435 8.659-2.533 11.914-2.105 3.255-4.986 6.005-8.65 8.268-3.664 2.254-8.555 4.682-14.656 7.284-6.039 2.428-10.487 4.403-13.35 5.926-2.863 1.515-5.004 3.299-6.431 5.335-1.427 2.037-2.002 4.621-1.732 7.746 0.418 4.778 2.385 8.415 5.901 10.939 3.524 2.515 8.363 3.768 14.524 3.768 7.032 0 12.376-1.601 16.048-4.812 3.664-3.212 5.283-7.337 4.839-12.367l-0.209-2.341c-0.069-0.87 0.322-1.305 1.193-1.305h6.509c0.862 0 1.341 0.435 1.41 1.305l0.252 2.863c0.653 7.459-1.601 13.446-6.753 17.963"
-                        fill="#fff"
-                      ></path>
-                    </g>
-                    <g transform="translate(205.36 172.59)">
-                      <path
-                        d="m0 0c-2.164 4.563-5.507 8.103-10.019 10.623-4.523 2.521-9.863 3.781-16.032 3.781-6.175 0-11.717-1.26-16.631-3.781-4.915-2.52-8.857-6.06-11.815-10.623-2.969-4.563-4.707-9.846-5.236-15.842l-2.872-32.859c-0.523-5.997 0.293-11.274 2.458-15.837 2.163-4.564 5.483-8.108 9.961-10.629 4.471-2.521 9.794-3.781 15.963-3.781 4.989 0 9.576 0.823 13.765 2.469l0.121 0.276 6.318 14.686c-0.886-1.254-1.916-2.417-3.072-3.482-4.351-3.999-9.829-5.996-16.435-5.996-6.521 0-11.602 1.997-15.25 5.996-3.649 4-5.185 9.3-4.61 15.906l2.924 33.383c0.575 6.601 3.044 11.929 7.394 15.969 4.351 4.04 9.789 6.066 16.309 6.066 6.6 0 11.728-2.026 15.376-6.066 3.643-4.04 5.179-9.368 4.598-15.969l-2.917-33.383c-0.115-1.271-0.294-2.497-0.553-3.677l11.389 26.466 0.517 1.214 0.812 9.248c0.524 5.996-0.299 11.279-2.463 15.842"
-                        fill="#fff"
-                      ></path>
-                    </g>
-                    <g transform="translate(247.81 124.93)">
-                      <path
-                        d="m0 0h-15.795c-0.078 0-0.131 0.025-0.191 0.043l12.419 29.25 4.368-28.362c0-0.619-0.27-0.931-0.801-0.931m-66.21-55.994c-0.54-1.506-0.053-2.254 1.497-2.263l22.409-0.017c0.818 0 1.436 0.261 1.871 0.749l16.205 38.143c0.183 0.175 0.383 0.271 0.6 0.271h26.944c0.444 0 0.714-0.227 0.801-0.662l1.462-10.226c0.087-1.148 0.748-1.723 1.984-1.723h22.036c1.331 0 1.993 0.575 1.993 1.723v0.531l-16.197 89.073c-0.26 1.062-0.93 1.592-1.993 1.592h-27.343c-1.149 0-1.941-0.53-2.385-1.592z"
-                        fill="#fff"
-                      ></path>
-                    </g>
-                    <g transform="translate(348.62 185.59)">
-                      <path
-                        d="m0 0c-0.312 0.352-0.729 0.531-1.261 0.531h-68.094c-0.621 0-1.128-0.179-1.527-0.531-0.398-0.354-0.643-0.842-0.729-1.46l-2.124-17.521c-0.089-0.621 0.02-1.108 0.332-1.461 0.308-0.354 0.773-0.531 1.393-0.531h20.84c0.441 0 0.663-0.265 0.663-0.797l-8.495-68.624c-0.089-0.621 0.021-1.109 0.332-1.461 0.309-0.353 0.774-0.53 1.394-0.53h20.309c0.617 0 1.128 0.177 1.527 0.53 0.398 0.352 0.64 0.84 0.729 1.461l8.363 68.624c0.176 0.532 0.485 0.797 0.929 0.797h21.503c0.618 0 1.105 0.177 1.461 0.531 0.352 0.353 0.574 0.84 0.663 1.461l2.124 17.521c0.087 0.618-0.022 1.106-0.332 1.46"
-                        fill="#fff"
-                      ></path>
-                    </g>
-                  </g>
-                </g>
+<div class="quizz-play" [class.orange-body]="!isStarted" *ngIf="quizz">
+  <header class="header">
+    <div class="container">
+
+      <svg height="84.905" version="1.1" viewBox="0 0 200 84.905">
+        <defs>
+          <clipPath id="clipPath18">
+            <path d="M 0,279.33 H 414.477 V 0 H 0 Z"></path>
+          </clipPath>
+        </defs>
+        <g transform="matrix(1.3333 0 0 -1.3333 -87.361 173.78)">
+          <g transform="matrix(.52917 0 0 .52917 30.849 31.383)">
+            <g clip-path="url(#clipPath18)">
+              <g transform="translate(124.18 180.16)">
+                <path
+                  d="m0 0c-5.161 4.508-12.558 6.771-22.192 6.771-8.85 0-15.996-2.02-21.426-6.058-5.431-4.029-8.459-9.694-9.103-16.987-0.409-4.683 0.357-8.573 2.306-11.644 1.941-3.09 4.63-5.605 8.059-7.555 3.429-1.949 8.285-4.229 14.568-6.831 5.857-2.524 10.365-4.735 13.541-6.64 3.177-1.915 5.466-3.952 6.885-6.119 1.418-2.175 1.992-4.778 1.723-7.815-0.409-4.682-2.472-8.441-6.188-11.261s-8.92-4.229-15.604-4.229c-7.371 0-13.01 1.54-16.909 4.621-3.89 3.08-5.622 7.136-5.179 12.175l0.305 3.515c0.078 0.863-0.322 1.297-1.183 1.297h-6.38c-0.87 0-1.34-0.434-1.418-1.297l-0.357-4.038c-0.644-7.38 1.679-13.28 6.98-17.701 5.3-4.43 12.845-6.641 22.653-6.641 9.547 0 17.205 2.167 22.966 6.51 5.762 4.334 8.955 10.148 9.591 17.441 0.418 4.691-0.435 8.659-2.533 11.914-2.105 3.255-4.986 6.005-8.65 8.268-3.664 2.254-8.555 4.682-14.656 7.284-6.039 2.428-10.487 4.403-13.35 5.926-2.863 1.515-5.004 3.299-6.431 5.335-1.427 2.037-2.002 4.621-1.732 7.746 0.418 4.778 2.385 8.415 5.901 10.939 3.524 2.515 8.363 3.768 14.524 3.768 7.032 0 12.376-1.601 16.048-4.812 3.664-3.212 5.283-7.337 4.839-12.367l-0.209-2.341c-0.069-0.87 0.322-1.305 1.193-1.305h6.509c0.862 0 1.341 0.435 1.41 1.305l0.252 2.863c0.653 7.459-1.601 13.446-6.753 17.963"
+                  fill="#fff"></path>
               </g>
-            </svg>
-          </a>
-        </div>
-      </div>
+              <g transform="translate(205.36 172.59)">
+                <path
+                  d="m0 0c-2.164 4.563-5.507 8.103-10.019 10.623-4.523 2.521-9.863 3.781-16.032 3.781-6.175 0-11.717-1.26-16.631-3.781-4.915-2.52-8.857-6.06-11.815-10.623-2.969-4.563-4.707-9.846-5.236-15.842l-2.872-32.859c-0.523-5.997 0.293-11.274 2.458-15.837 2.163-4.564 5.483-8.108 9.961-10.629 4.471-2.521 9.794-3.781 15.963-3.781 4.989 0 9.576 0.823 13.765 2.469l0.121 0.276 6.318 14.686c-0.886-1.254-1.916-2.417-3.072-3.482-4.351-3.999-9.829-5.996-16.435-5.996-6.521 0-11.602 1.997-15.25 5.996-3.649 4-5.185 9.3-4.61 15.906l2.924 33.383c0.575 6.601 3.044 11.929 7.394 15.969 4.351 4.04 9.789 6.066 16.309 6.066 6.6 0 11.728-2.026 15.376-6.066 3.643-4.04 5.179-9.368 4.598-15.969l-2.917-33.383c-0.115-1.271-0.294-2.497-0.553-3.677l11.389 26.466 0.517 1.214 0.812 9.248c0.524 5.996-0.299 11.279-2.463 15.842"
+                  fill="#fff"></path>
+              </g>
+              <g transform="translate(247.81 124.93)">
+                <path
+                  d="m0 0h-15.795c-0.078 0-0.131 0.025-0.191 0.043l12.419 29.25 4.368-28.362c0-0.619-0.27-0.931-0.801-0.931m-66.21-55.994c-0.54-1.506-0.053-2.254 1.497-2.263l22.409-0.017c0.818 0 1.436 0.261 1.871 0.749l16.205 38.143c0.183 0.175 0.383 0.271 0.6 0.271h26.944c0.444 0 0.714-0.227 0.801-0.662l1.462-10.226c0.087-1.148 0.748-1.723 1.984-1.723h22.036c1.331 0 1.993 0.575 1.993 1.723v0.531l-16.197 89.073c-0.26 1.062-0.93 1.592-1.993 1.592h-27.343c-1.149 0-1.941-0.53-2.385-1.592z"
+                  fill="#fff"></path>
+              </g>
+              <g transform="translate(348.62 185.59)">
+                <path
+                  d="m0 0c-0.312 0.352-0.729 0.531-1.261 0.531h-68.094c-0.621 0-1.128-0.179-1.527-0.531-0.398-0.354-0.643-0.842-0.729-1.46l-2.124-17.521c-0.089-0.621 0.02-1.108 0.332-1.461 0.308-0.354 0.773-0.531 1.393-0.531h20.84c0.441 0 0.663-0.265 0.663-0.797l-8.495-68.624c-0.089-0.621 0.021-1.109 0.332-1.461 0.309-0.353 0.774-0.53 1.394-0.53h20.309c0.617 0 1.128 0.177 1.527 0.53 0.398 0.352 0.64 0.84 0.729 1.461l8.363 68.624c0.176 0.532 0.485 0.797 0.929 0.797h21.503c0.618 0 1.105 0.177 1.461 0.531 0.352 0.353 0.574 0.84 0.663 1.461l2.124 17.521c0.087 0.618-0.022 1.106-0.332 1.46"
+                  fill="#fff"></path>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
     </div>
   </header>
-  <div class="initial-content">
-    <div
-      class="overlay is-orange"
-      *ngIf="!isStarted"
-      style="background-image: url('./../../../../assets/img/fond-pixel-orange.png')"
-    >
-      <section class="section">
-        <div class="container container container--no-padding-top-bottom main-page">
-          <div class="o-media o-media--center has-margin-bottom--medium"></div>
-
-          <div class="o-media has-no-flex-mobile">
-            <div class="page-hero__svg is-svg-fixed--mobile u-width-container" data-width="10" max-width="8">
-              <a href="">
-                <svg height="44.33" version="1.1" viewBox="0 0 64.66 44.33" width="64.66">
-                  <g stroke-miterlimit="10" stroke-width="4.2px" stroke="#1d1d1b">
-                    <rect class="formation-1" fill="none" height="40.13" width="60.46" x="2.1" y="2.1"></rect>
-                    <circle class="formation-2" cx="45.69" cy="22.36" fill="#fff" r="9.36"></circle>
-                    <path class="formation-3" d="m36.33 44.29a9.36 9.36 0 0 1 18.72 0" fill="#ed6965"></path>
-                    <line class="formation-4" fill="#f6a000" x1="18.28" x2="36.94" y1="25.94" y2="40.6"></line>
-                  </g>
-                </svg>
-              </a>
-
-              <h1 class="page-hero__title-mobile is-font-white" id="page-title" itemprop="headline">
-                Formation agile, technique, IT | Formez vos équipes
-              </h1>
-            </div>
-
-            <div class="o-media o-media--vertical">
-              <div class="page-hero__infos">
-                <div class="page-hero__titles">
-                  <h1 class="page-hero__title is-font-white" id="page-title" itemprop="headline">
-                    {{ quizz.title }}
-                  </h1>
-
-                  <p class="page-hero__paragraph p-chapo has-margin-bottom--medium is-font-white">
-                    Durée : {{ quizz.duration }} minutes
-                  </p>
-
-                  <p
-                    class="page-hero__paragraph p-chapo has-text-weight-normal has-margin-bottom--medium is-font-white"
-                    [innerHTML]="quizz.description"
-                  ></p>
-
-                  <p class="page__buttons" *ngIf="!isStarted">
-                    <a class="button button--fixed-size button--with-inverted-hover" (click)="startQuizz()"
-                      >Démarrer le quizz</a
-                    >
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end container-->
-      </section>
+  <div class="content">
+    <div class="introduction" *ngIf="!isStarted"
+      style="background-image: url('./../../../../assets/img/fond-pixel-orange.png')">
+      <div class="container">
+        <h1>{{ quizz.title }}</h1>
+        <p>Durée : {{quizz.duration}} minutes</p>
+        <p [innerHTML]="quizz.description"></p>
+        <p class="buttons" *ngIf="!isStarted">
+          <a class="button" (click)="startQuizz()">GO !</a>
+        </p>
+      </div>
     </div>
 
-    <section class="section" *ngIf="isStarted">
-      <div class="container">
-        <article class="page">
-          <div class="page__inner-wrap">
-            <section class="page__content" itemprop="text">
-              <article class="article article--full-page">
-                <div class="o-media o-media--center o-media--reverse is-title-with-icon">
-                  <div class="o-media__content is-relative">
-                    <h2 class="is-font-black">
-                      {{ quizz.title }}
-                    </h2>
-                  </div>
-                </div>
-                <div class="timer" *ngIf="countdown | async as c">
-                  <span>Temps restant : </span>
-                  <span *ngIf="c.hours > 0"> {{ c.hours }}h</span>
-                  <span *ngIf="c.minutes > 0"> {{ c.minutes }}min</span>
-                  <span *ngIf="c.minutes > 0 || c.seconds > 0"> {{ c.seconds }}s</span>
-                  <mat-progress-bar mode="determinate" [value]="c.progress"></mat-progress-bar>
-                </div>
-                <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
-                <div *ngIf="quizz && countdown | async">
-                  <button
-                    mat-flat-button
-                    type="button"
-                    color="basic"
-                    class="display-questions-btn"
-                    (click)="showQuestions()"
-                    *ngIf="!isQuestionsDisplay"
-                  >
-                    <mat-icon>question_answer</mat-icon>
-                    Afficher les questions
-                  </button>
-                  <button
-                    mat-flat-button
-                    type="button"
-                    color="basic"
-                    class="display-questions-btn"
-                    (click)="hideQuestions()"
-                    *ngIf="isQuestionsDisplay"
-                  >
-                    <mat-icon>question_answer</mat-icon>
-                    Masquer les questions
-                  </button>
-                </div>
-                <mat-stepper *ngIf="quizz && countdown | async">
-                  <mat-step *ngFor="let question of quizz.questions; let i = index">
-                    <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
-                    <h3>Question {{ i + 1 }} sur {{ questionsSize() }}</h3>
-                    <h5 [innerHTML]="question.title"></h5>
-                    <div>
-                      <div *ngFor="let answer of question.answers">
-                        <mat-checkbox>{{ answer.title }}</mat-checkbox>
-                      </div>
-                    </div>
-                    <div class="stepper-buttons">
-                      <button mat-flat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">
-                        Précédent
-                      </button>
-                      <button mat-flat-button matStepperNext type="button" class="pull-right" color="primary">
-                        Suivant
-                      </button>
-                    </div>
-                  </mat-step>
-                  <mat-step>
-                    <ng-template matStepLabel>Fin</ng-template>
-                    <p>Le quizz est terminé. Souhaitez-vous confirmer vos réponses et afficher le résultat obtenu ?</p>
-                    <div class="stepper-buttons">
-                      <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
-                      <button mat-flat-button type="button" class="pull-right" color="accent" (click)="submitQuizz()">
-                        Terminer
-                      </button>
-                    </div>
-                  </mat-step>
-                </mat-stepper>
-              </article>
-            </section>
-          </div>
-        </article>
+    <div class="container" *ngIf="isStarted">
+      <h2>{{ quizz.title }}</h2>
+
+      <div class="timer" *ngIf="countdown | async as c">
+        <span>Temps restant : </span>
+        <span *ngIf="c.hours > 0"> {{ c.hours }}h</span>
+        <span *ngIf="c.minutes > 0"> {{ c.minutes }}min</span>
+        <span *ngIf="c.minutes > 0 || c.seconds > 0"> {{ c.seconds }}s</span>
+        <mat-progress-bar mode="determinate" [value]="c.progress"></mat-progress-bar>
       </div>
-    </section>
+      <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
+      <div *ngIf="quizz && countdown | async">
+        <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="showQuestions()"
+          *ngIf="!isQuestionsDisplay">
+          Afficher les questions
+        </button>
+        <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="hideQuestions()"
+          *ngIf="isQuestionsDisplay">
+          Masquer les questions
+        </button>
+      </div>
+      <mat-stepper *ngIf="quizz && countdown | async">
+        <mat-step *ngFor="let question of quizz.questions; let i = index">
+          <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
+          <h3>Question {{ i + 1 }} / {{ questionsSize() }}</h3>
+          <h5 [innerHTML]="question.title"></h5>
+          <div>
+            <div *ngFor="let answer of question.answers">
+              <mat-checkbox>{{ answer.title }}</mat-checkbox>
+            </div>
+          </div>
+          <div class="stepper-buttons">
+            <button mat-flat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">Précédent</button>
+            <button mat-flat-button matStepperNext type="button" class="pull-right" color="primary">Suivant</button>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Fin</ng-template>
+          <p>Le quizz est terminé. Souhaitez-vous confirmer vos réponses et afficher le résultat obtenu ?</p>
+          <div class="stepper-buttons">
+            <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
+            <button mat-flat-button type="button" class="pull-right" color="accent"
+              (click)="submitQuizz()">Terminer</button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </div>
   </div>
 </div>
