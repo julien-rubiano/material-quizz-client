@@ -30,7 +30,7 @@ export class UsersListComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.userService.getUsers().subscribe((users) => {
+    this.userService.getAllUsers().subscribe((users) => {
       this.dataSource = new MatTableDataSource(users);
     });
   }

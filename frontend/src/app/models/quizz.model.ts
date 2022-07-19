@@ -1,5 +1,5 @@
 export interface Quizz {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   isRandomQuestions: boolean;

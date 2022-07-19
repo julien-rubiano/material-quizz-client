@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { handleError } from './services.utils';
+import { HttpDeleteResponse } from '../models/http.model';
 
 @Injectable()
 export class UserService {
@@ -11,18 +12,14 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.usersUrl}/read.php`).pipe(
-      map((data) => data),
-      catchError(handleError)
-    );
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.usersUrl}/read.php`).pipe(catchError(handleError<User[]>('getAllUsers')));
   }
 
   getUserById(userId: number): Observable<User> {
-    return this.http.get<User>(`${this.usersUrl}/read-single.php?id=${userId}`).pipe(
-      map((data) => data),
-      catchError(handleError)
-    );
+    return this.http
+      .get<User>(`${this.usersUrl}/read-single.php?id=${userId}`)
+      .pipe(catchError(handleError<User>('getUserById')));
   }
 
   save(user: User): Observable<User> {
@@ -33,14 +30,20 @@ export class UserService {
   }
 
   private create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.usersUrl}/create.php`, JSON.stringify(user)).pipe(catchError(handleError));
+    return this.http
+      .post<User>(`${this.usersUrl}/create.php`, JSON.stringify(user))
+      .pipe(catchError(handleError<User>('create')));
   }
 
   private update(user: User): Observable<User> {
-    return this.http.post<User>(`${this.usersUrl}/update.php`, JSON.stringify(user)).pipe(catchError(handleError));
+    return this.http
+      .post<User>(`${this.usersUrl}/update.php`, JSON.stringify(user))
+      .pipe(catchError(handleError<User>('update')));
   }
 
-  delete(user: User): Observable<User> {
-    return this.http.post<User>(`${this.usersUrl}/delete.php`, JSON.stringify(user)).pipe(catchError(handleError));
+  delete(user: User): Observable<HttpDeleteResponse> {
+    return this.http
+      .post<HttpDeleteResponse>(`${this.usersUrl}/delete.php`, JSON.stringify(user))
+      .pipe(catchError(handleError<HttpDeleteResponse>('delete')));
   }
 }

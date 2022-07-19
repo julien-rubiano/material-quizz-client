@@ -31,7 +31,7 @@ export class QuizzListComponent implements OnInit {
   }
 
   getQuizz(): void {
-    this.quizzService.getQuizz().subscribe((quizz) => {
+    this.quizzService.getAllQuizz().subscribe((quizz) => {
       this.dataSource = new MatTableDataSource(quizz);
     });
   }
