@@ -1,8 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, interval, map, Observable, shareReplay } from 'rxjs';
 import { Countdown } from 'src/app/models/countdown.model';
-import { Answer, Question, Quizz } from 'src/app/models/quizz.model';
+import { Answer, Game, Question, Quizz } from 'src/app/models/quizz.model';
 import { AnswerService } from 'src/app/services/answer.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { QuizzService } from 'src/app/services/quizz.service';
@@ -14,7 +15,7 @@ import { QuizzService } from 'src/app/services/quizz.service';
 })
 export class QuizzPlayComponent implements OnInit {
   quizz!: Quizz;
-  isStarted = false;
+  game!: Game;
   countdown!: Observable<Countdown>;
   countdownMinutes = 0;
   isQuestionsDisplay = false;
@@ -30,6 +31,14 @@ export class QuizzPlayComponent implements OnInit {
   ngOnInit() {
     const quizzId = parseInt(this.route.snapshot.paramMap.get('id') || '{}');
     if (quizzId) {
+      this.game = {
+        isStarted: false,
+        isFinished: false,
+        score: 0,
+        scorePercent: 0,
+        correctAnswers: [],
+        wrongAnswers: []
+      }
       this.fillQuizz(quizzId);
     }
   }
@@ -94,7 +103,7 @@ export class QuizzPlayComponent implements OnInit {
           .map(({ value }) => value);
       }
 
-      this.quizz.questions = questions;
+      this.quizz.questions = questions;      
     });
   }
 
@@ -125,9 +134,9 @@ export class QuizzPlayComponent implements OnInit {
     return new Date(date.getTime() + minutes * 60000);
   }
 
-  startQuizz(): void {
+  startGame(): void {
     this.startCountdown();
-    this.isStarted = true;
+    this.game.isStarted = true;
   }
 
   startCountdown(): void {
@@ -153,5 +162,42 @@ export class QuizzPlayComponent implements OnInit {
     return this.quizz.questions?.length || 0;
   }
 
-  submitQuizz(): void {}
+  updateGame(event: MatCheckboxChange, answer: Answer) {
+    if(event.checked) {
+      if(answer.isValid) {
+        this.game.score ++;
+        this.game.correctAnswers.push(answer);
+      } else {
+        this.game.wrongAnswers.push(answer);
+      }
+    } else {
+      if(answer.isValid) {
+        this.game.score --;
+        this.game.correctAnswers = this.game.correctAnswers.filter(a => a != answer);
+      } else {
+        this.game.wrongAnswers = this.game.wrongAnswers.filter(a => a != answer);
+      }
+    }
+    this.game.scorePercent = Math.round(this.game.score / this.quizz.questions!.length * 100);
+  }
+
+  finishGame(): void {
+    this.game.isFinished = true;
+  }
+
+  isQuestionCorrect(question: Question): boolean {
+    return this.game.wrongAnswers.filter(a => a.questionId === question.id).length === 0 && this.game.correctAnswers.filter(a => a.questionId === question.id).length > 0;
+  }
+
+  isAnswerCorrect(answer: Answer): boolean {
+    return this.game.correctAnswers.filter(a => a.id === answer.id).length > 0 || this.game.wrongAnswers.filter(a => a.id === answer.id).length === 0;
+  }
+
+  isAnswerChecked(answer: Answer): boolean {
+    return this.game.wrongAnswers.filter(a => a.id === answer.id).length > 0 || this.game.correctAnswers.filter(a => a.id === answer.id).length > 0 || answer.isValid;
+  }
+
+  isPlayerAnswer(answer: Answer): boolean {
+    return this.game.wrongAnswers.filter(a => a.id === answer.id).length > 0 || this.game.correctAnswers.filter(a => a.id === answer.id).length > 0;
+  }
 }

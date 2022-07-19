@@ -167,8 +167,8 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial",
-    sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 code,
@@ -1166,14 +1166,81 @@ p {
   color: #1d1d1b;
 }
 
-.content .container {
-  margin-top: 3.125rem;
-  margin-bottom: 3.125rem;
-}
-
 .mat-stepper-vertical,
 .mat-stepper-horizontal {
   display: block;
+  margin-top: 40px;
+}
+
+.quizz-card {
+  margin-bottom: 40px;
+  padding: 10px 30px 30px 30px;
+  max-width: 1060px;
+  color: #ffffff;
+  -webkit-box-shadow: 0px 0px 20px #00000029;
+  box-shadow: 0px 0px 20px #00000029;
+}
+
+.quizz-card-icon {
+  float: right;
+  font-size: 90px;
+  position: absolute;
+  right: 100px;
+}
+
+.is-question-correct .quizz-card-icon-wrong,
+.is-question-wrong .quizz-card-icon-correct {
+  display: none;
+}
+
+.is-question-correct .quizz-card-icon-correct,
+.is-question-wrong .quizz-card-icon-wrong {
+  display: block;
+}
+
+.quizz-card.is-question-wrong {
+  background-color: #ed6965;
+}
+
+.quizz-card.is-question-correct {
+  background-color: #4ab69a;
+}
+
+.quizz-card-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 21px;
+  font-size: 1.3125rem;
+  line-height: 90px;
+}
+
+.quizz-card-question {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.quizz-score {
+  width: 100%;
+  margin-bottom: 200px;
+}
+
+.quizz-score-title {
+  float: left;
+}
+
+.quizz-score-spinner {
+  margin-bottom: 10px;
+}
+
+.quizz-score-value {
+  float: right;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.timer {
   margin-top: 40px;
 }
 

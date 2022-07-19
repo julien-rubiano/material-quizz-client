@@ -22,3 +22,12 @@ export interface Answer {
   questionId?: number;
   quizzId?: number;
 }
+
+export interface Game {
+  isStarted: boolean;
+  isFinished: boolean;
+  score: number;
+  scorePercent: number;
+  correctAnswers: Answer[];
+  wrongAnswers: Answer[];
+}

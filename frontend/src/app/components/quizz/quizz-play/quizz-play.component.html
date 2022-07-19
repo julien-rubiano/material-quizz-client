@@ -1,4 +1,4 @@
-<div class="quizz-play" [class.orange-body]="!isStarted" *ngIf="quizz">
+<div class="quizz-play" [class.orange-body]="!game.isStarted" *ngIf="quizz">
   <header class="header">
     <div class="container">
 
@@ -37,65 +37,94 @@
       </svg>
     </div>
   </header>
-  <div class="content">
-    <div class="introduction" *ngIf="!isStarted"
-      style="background-image: url('./../../../../assets/img/fond-pixel-orange.png')">
-      <div class="container">
-        <h1>{{ quizz.title }}</h1>
-        <p>Durée : {{quizz.duration}} minutes</p>
-        <p [innerHTML]="quizz.description"></p>
-        <p class="buttons" *ngIf="!isStarted">
-          <a class="button" (click)="startQuizz()">GO !</a>
-        </p>
+  <div class="introduction" *ngIf="!game.isStarted"
+    style="background-image: url('./../../../../assets/img/fond-pixel-orange.png')">
+    <div class="container">
+      <h1>{{ quizz.title }}</h1>
+      <p>Durée : {{quizz.duration}} minutes</p>
+      <p [innerHTML]="quizz.description"></p>
+      <p class="buttons" *ngIf="!game.isStarted">
+        <a class="button" (click)="startGame()">GO !</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="game.isStarted && !game.isFinished">
+    <h2>{{ quizz.title }}</h2>
+    <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
+    <div *ngIf="quizz && countdown | async">
+      <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="showQuestions()"
+        *ngIf="!isQuestionsDisplay">
+        Afficher les questions
+      </button>
+      <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="hideQuestions()"
+        *ngIf="isQuestionsDisplay">
+        Masquer les questions
+      </button>
+    </div>
+    <mat-stepper *ngIf="quizz && countdown | async">
+      <mat-step *ngFor="let question of quizz.questions; let i = index">
+        <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
+        <h3>Question {{ i + 1 }} / {{ questionsSize() }}</h3>
+        <h5 [innerHTML]="question.title"></h5>
+        <div *ngFor="let answer of question.answers">
+          <mat-checkbox (change)="updateGame($event, answer)">{{ answer.title }}</mat-checkbox>
+        </div>
+        <div class="stepper-buttons">
+          <button mat-flat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">Précédent</button>
+          <button mat-flat-button matStepperNext type="button" class="pull-right" color="primary">Suivant</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Fin</ng-template>
+        <p>Le quizz est terminé. Souhaitez-vous confirmer vos réponses et afficher le résultat obtenu ?</p>
+        <div class="stepper-buttons">
+          <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
+          <button mat-flat-button type="button" class="pull-right" color="accent"
+            (click)="finishGame()">Terminer</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+    <div class="timer" *ngIf="countdown | async as c">
+      <span>Temps restant : </span>
+      <span *ngIf="c.hours > 0"> {{ c.hours }}h</span>
+      <span *ngIf="c.minutes > 0"> {{ c.minutes }}min</span>
+      <span *ngIf="c.minutes > 0 || c.seconds > 0"> {{ c.seconds }}s</span>
+      <mat-progress-bar mode="determinate" [value]="c.progress"></mat-progress-bar>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="game.isFinished">
+    <div class="quizz-score">
+      <h2 class="quizz-score-title">{{ quizz.title }}</h2>
+      <div class="quizz-score-value">
+        <mat-progress-spinner class="quizz-score-spinner" mode="determinate" [value]="game.scorePercent">
+        </mat-progress-spinner>
+        <span class="quizz-score-label">Score : {{game.score}} /
+          {{quizz.questions?.length}} <br> {{game.scorePercent}} %</span>
+
       </div>
     </div>
-
-    <div class="container" *ngIf="isStarted">
-      <h2>{{ quizz.title }}</h2>
-
-      <div class="timer" *ngIf="countdown | async as c">
-        <span>Temps restant : </span>
-        <span *ngIf="c.hours > 0"> {{ c.hours }}h</span>
-        <span *ngIf="c.minutes > 0"> {{ c.minutes }}min</span>
-        <span *ngIf="c.minutes > 0 || c.seconds > 0"> {{ c.seconds }}s</span>
-        <mat-progress-bar mode="determinate" [value]="c.progress"></mat-progress-bar>
+    <div *ngFor="let question of quizz.questions; let i = index" class="quizz-card"
+      [class.is-question-correct]="isQuestionCorrect(question)"
+      [class.is-question-wrong]="!isQuestionCorrect(question)">
+      <div class="quizz-card-header">
+        <span class="quizz-card-title">Question {{ i + 1 }}</span>
+        <span class="quizz-card-icon">
+          <mat-icon class="quizz-card-icon quizz-card-icon-correct">done</mat-icon>
+          <mat-icon class="quizz-card-icon quizz-card-icon-wrong">close</mat-icon>
+        </span>
       </div>
-      <mat-spinner *ngIf="!(countdown | async)"></mat-spinner>
-      <div *ngIf="quizz && countdown | async">
-        <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="showQuestions()"
-          *ngIf="!isQuestionsDisplay">
-          Afficher les questions
-        </button>
-        <button mat-flat-button type="button" color="basic" class="display-questions-btn" (click)="hideQuestions()"
-          *ngIf="isQuestionsDisplay">
-          Masquer les questions
-        </button>
+      <div class="quizz-card-question" [innerHTML]="question.title"></div>
+      <div class="quizz-card-choices">
+        <div *ngFor="let answer of question.answers" class="quizz-card-choice"
+          [class.is-answer-correct]="isAnswerCorrect(answer)" [class.is-answer-wrong]="!isAnswerCorrect(answer)"
+          [class.is-player-answer]="isPlayerAnswer(answer)">
+          <mat-checkbox [checked]="isAnswerChecked(answer)" [disabled]="true">{{
+            answer.title }}
+          </mat-checkbox>
+        </div>
       </div>
-      <mat-stepper *ngIf="quizz && countdown | async">
-        <mat-step *ngFor="let question of quizz.questions; let i = index">
-          <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
-          <h3>Question {{ i + 1 }} / {{ questionsSize() }}</h3>
-          <h5 [innerHTML]="question.title"></h5>
-          <div>
-            <div *ngFor="let answer of question.answers">
-              <mat-checkbox>{{ answer.title }}</mat-checkbox>
-            </div>
-          </div>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">Précédent</button>
-            <button mat-flat-button matStepperNext type="button" class="pull-right" color="primary">Suivant</button>
-          </div>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Fin</ng-template>
-          <p>Le quizz est terminé. Souhaitez-vous confirmer vos réponses et afficher le résultat obtenu ?</p>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious type="button" color="primary">Précédent</button>
-            <button mat-flat-button type="button" class="pull-right" color="accent"
-              (click)="submitQuizz()">Terminer</button>
-          </div>
-        </mat-step>
-      </mat-stepper>
     </div>
   </div>
 </div>
