@@ -1,31 +1,24 @@
 <div class="container" *ngIf="isAdmin">
-  <h1>Dashboard</h1>
-  <div class="docs-component-category-list">
-    <a
-      class="docs-component-category-list-item"
-      routerLink="users"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <div class="docs-component-category-list-card">
-        <img class="docs-component-category-list-card-image-wrapper" src="assets/img/users.png" />
-        <div class="docs-component-category-list-card-title">Utilisateurs</div>
-        <div class="docs-component-category-list-card-summary">
-          Ajouter, modifier et supprimer les utilisateurs du site.
+  <div class="container-nav">
+    <div class="docs-component-category-list">
+      <a class="docs-component-category-list-item" routerLink="users" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <div class="docs-component-category-list-card">
+          <img class="docs-component-category-list-card-image-wrapper" src="assets/img/users.png" />
+          <div class="docs-component-category-list-card-title">Utilisateurs</div>
+          <div class="docs-component-category-list-card-summary">
+            Ajouter, modifier et supprimer les utilisateurs du site.
+          </div>
         </div>
-      </div>
-    </a>
-    <a
-      class="docs-component-category-list-item"
-      routerLink="quizz"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-      <div class="docs-component-category-list-card">
-        <img class="docs-component-category-list-card-image-wrapper" src="assets/img/quizz.png" />
-        <div class="docs-component-category-list-card-title">Quizz</div>
-        <div class="docs-component-category-list-card-summary">Ajouter, modifier, supprimer et jouer des quizz.</div>
-      </div>
-    </a>
+      </a>
+      <a class="docs-component-category-list-item" routerLink="quizz" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <div class="docs-component-category-list-card">
+          <img class="docs-component-category-list-card-image-wrapper" src="assets/img/quizz.png" />
+          <div class="docs-component-category-list-card-title">Quizz</div>
+          <div class="docs-component-category-list-card-summary">Ajouter, modifier, supprimer et jouer des quizz.</div>
+        </div>
+      </a>
+    </div>
   </div>
 </div>

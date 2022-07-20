@@ -1,8 +1,9 @@
 <div class="container" *ngIf="isAdmin">
-  <h1>Utilisateurs</h1>
   <div class="container-nav" *ngIf="isAdmin">
     <a routerLink="/users/create">
-      <button mat-flat-button color="primary"><mat-icon>add</mat-icon>Nouvel utilisateur</button>
+      <button mat-flat-button color="primary">
+        <mat-icon>add</mat-icon>Nouvel utilisateur
+      </button>
     </a>
   </div>
   <mat-form-field appearance="fill">

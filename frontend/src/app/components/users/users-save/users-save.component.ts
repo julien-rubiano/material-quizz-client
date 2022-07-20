@@ -16,7 +16,6 @@ export class UsersSaveComponent {
   userForm!: FormGroup;
   isAdmin = false;
   isEditing = false;
-  title: string = 'Ajouter un utilisateur';
 
   constructor(
     private userService: UserService,
@@ -33,7 +32,6 @@ export class UsersSaveComponent {
     this.initForm();
     if (userId) {
       this.isEditing = true;
-      this.title = 'Modifier un utilisateur';
       this.fillForm(userId);
     }
   }
