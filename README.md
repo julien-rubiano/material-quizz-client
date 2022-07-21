@@ -37,8 +37,13 @@ An open source Quizz project entirely built in Typescript/Javascript. It will al
 # Technical informations
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
+It uses [Angular Material]([https://github.com/angular/angular-cli](https://material.angular.io/)) to create component and UI.
 
-## Development server
+## Server REST API
+
+To make this client work, you'll need to also download and launch the Node JS server : https://github.com/julien-rubiano/material-quizz-server
+
+## Development start
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
