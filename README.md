@@ -5,7 +5,7 @@ An open source Quizz project entirely built in Typescript/Javascript. It will al
 * Create and update quizzes easilly
 * Share quizzes links and let your friends to play them
 
-# Demo
+# Captures
 
 ## Login
 ![image](https://user-images.githubusercontent.com/32417791/180213223-4dd00273-7564-4764-97b5-4cd6df18b9e6.png)
