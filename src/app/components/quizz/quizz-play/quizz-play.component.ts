@@ -125,21 +125,27 @@ export class QuizzPlayComponent implements OnInit {
     return this.quizz.questions?.length || 0;
   }
 
-  updateGame(event: MatCheckboxChange, answer: Answer) {
+  saveAnswer(event: MatCheckboxChange, answer: Answer) {
     if (event.checked) {
       if (answer.isValid) {
-        this.game.score++;
         this.game.correctAnswers.push(answer);
       } else {
         this.game.wrongAnswers.push(answer);
       }
     } else {
       if (answer.isValid) {
-        this.game.score--;
         this.game.correctAnswers = this.game.correctAnswers.filter((a) => a != answer);
       } else {
         this.game.wrongAnswers = this.game.wrongAnswers.filter((a) => a != answer);
       }
+    }
+  }
+
+  updateScore(question: Question) {
+    if (this.isQuestionCorrect(question)) {
+      this.game.score++;
+    } else {
+      this.game.score--;
     }
     this.game.scorePercent = Math.round((this.game.score / this.quizz.questions!.length) * 100);
   }
@@ -149,10 +155,18 @@ export class QuizzPlayComponent implements OnInit {
   }
 
   isQuestionCorrect(question: Question): boolean {
-    return (
-      !this.game.wrongAnswers.some((a) => question.answers!.includes(a)) &&
-      this.game.correctAnswers.some((a) => question.answers!.includes(a))
-    );
+    let areAllValidAnswersSelected = question
+      .answers!.filter((answer) => answer.isValid)
+      .every((answer) => {
+        return this.game.correctAnswers.includes(answer);
+      });
+    let areSomeWrongAnswersSelected = question
+      .answers!.filter((answer) => !answer.isValid)
+      .some((answer) => {
+        return this.game.wrongAnswers.includes(answer);
+      });
+
+    return areAllValidAnswersSelected && !areSomeWrongAnswersSelected;
   }
 
   isAnswerCorrect(answer: Answer): boolean {

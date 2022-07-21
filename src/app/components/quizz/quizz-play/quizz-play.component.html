@@ -32,12 +32,14 @@
             <mat-card-content>
               <p [innerHTML]="question.title"></p>
               <p *ngFor="let answer of question.answers">
-                <mat-checkbox (change)="updateGame($event, answer)">{{ answer.title }}</mat-checkbox>
+                <mat-checkbox (change)="saveAnswer($event, answer)">{{ answer.title }}</mat-checkbox>
               </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0">Précédent</button>
-              <button mat-button matStepperNext type="button" color="primary">Suivant</button>
+              <button mat-button matStepperPrevious type="button" color="primary" *ngIf="i > 0"
+                (click)="updateScore(question)">Précédent</button>
+              <button mat-button matStepperNext type="button" color="primary"
+                (click)="updateScore(question)">Suivant</button>
             </mat-card-actions>
             <mat-card-footer>
               <div *ngIf="countdown | async as c">
