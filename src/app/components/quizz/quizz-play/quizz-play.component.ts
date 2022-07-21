@@ -144,8 +144,6 @@ export class QuizzPlayComponent implements OnInit {
   updateScore(question: Question) {
     if (this.isQuestionCorrect(question)) {
       this.game.score++;
-    } else {
-      this.game.score--;
     }
     this.game.scorePercent = Math.round((this.game.score / this.quizz.questions!.length) * 100);
   }
