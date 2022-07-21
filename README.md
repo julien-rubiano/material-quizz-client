@@ -1,4 +1,29 @@
-# Material Quizz Client
+# What is it?
+
+An open source Quizz project entirely built in Typescript/Javascript. It will allow you to : 
+* Manage users that have access to the admin panel
+* Create and update quizzes easilly
+* Share quizzes links and let your friends to play them
+
+# Demo
+
+## Login
+
+
+## Dashboard
+
+
+## Users management
+
+
+## Quizzes management
+
+
+
+## Quizz games
+
+
+# Technical informations
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
 
