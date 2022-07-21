@@ -7,25 +7,62 @@ let httpClientSpy: jasmine.SpyObj<HttpClient>;
 let quizzService: QuizzService;
 
 beforeEach(() => {
-  httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']);
+  httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'put', 'delete']);
   quizzService = new QuizzService(httpClientSpy);
 });
 
-it('getAllQuizz should return expected answers', (done: DoneFn) => {
+it('getAllQuizz should return expected quizzes', (done: DoneFn) => {
   const expectedQuizz: Quizz[] = [
     {
-      id: 1,
-      title: 'PSM I - Examen blanc 1',
+      id: 'c08349be-0835-11ed-861d-0242ac120002',
+      title: 'Quizz numéro 1',
       description:
-        'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
       isRandomQuestions: true,
-      duration: 10,
+      duration: 25,
+      questions: [
+        {
+          id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+          title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+          isRandomAnswers: true,
+          answers: [
+            {
+              id: 'ada66cea-0835-11ed-861d-0242ac120002',
+              title: 'Duis at erat maximus, suscipit erat sit amet',
+              isValid: true,
+            },
+            {
+              id: 'b263f61c-0835-11ed-861d-0242ac120002',
+              title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+              isValid: false,
+            },
+          ],
+        },
+        {
+          id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+          title:
+            'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+          isRandomAnswers: false,
+          answers: [
+            {
+              id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+              title: 'Nulla at dolor ac mauris vehicula scelerisque',
+              isValid: true,
+            },
+            {
+              id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+              title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+              isValid: true,
+            },
+          ],
+        },
+      ],
     },
   ];
 
   httpClientSpy.get.and.returnValue(of(expectedQuizz));
 
-  quizzService.getAllQuizz().subscribe({
+  quizzService.getAllQuizzes().subscribe({
     next: (response) => {
       expect(response).withContext('expected quizz').toEqual(expectedQuizz);
       done();
@@ -37,16 +74,53 @@ it('getAllQuizz should return expected answers', (done: DoneFn) => {
 
 it('getQuizzById should return expected quizz', (done: DoneFn) => {
   const expectedQuizz: Quizz = {
-    id: 1,
-    title: 'PSM I - Examen blanc 1',
+    id: 'c08349be-0835-11ed-861d-0242ac120002',
+    title: 'Quizz numéro 1',
     description:
-      'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
     isRandomQuestions: true,
-    duration: 10,
+    duration: 25,
+    questions: [
+      {
+        id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+        isRandomAnswers: true,
+        answers: [
+          {
+            id: 'ada66cea-0835-11ed-861d-0242ac120002',
+            title: 'Duis at erat maximus, suscipit erat sit amet',
+            isValid: true,
+          },
+          {
+            id: 'b263f61c-0835-11ed-861d-0242ac120002',
+            title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+            isValid: false,
+          },
+        ],
+      },
+      {
+        id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+        title:
+          'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+        isRandomAnswers: false,
+        answers: [
+          {
+            id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+            title: 'Nulla at dolor ac mauris vehicula scelerisque',
+            isValid: true,
+          },
+          {
+            id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+            title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+            isValid: true,
+          },
+        ],
+      },
+    ],
   };
   httpClientSpy.get.and.returnValue(of(expectedQuizz));
 
-  quizzService.getQuizzById(1).subscribe({
+  quizzService.getQuizzById('c08349be-0835-11ed-861d-0242ac120002').subscribe({
     next: (response) => {
       expect(response).withContext('expected answers').toEqual(expectedQuizz);
       done();
@@ -58,19 +132,93 @@ it('getQuizzById should return expected quizz', (done: DoneFn) => {
 
 it('save quizz without id should create a new quizz ands return it', (done: DoneFn) => {
   const quizz: Quizz = {
-    title: 'PSM I - Examen blanc 1',
+    title: 'Quizz numéro 1',
     description:
-      'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
     isRandomQuestions: true,
-    duration: 10,
+    duration: 25,
+    questions: [
+      {
+        id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+        isRandomAnswers: true,
+        answers: [
+          {
+            id: 'ada66cea-0835-11ed-861d-0242ac120002',
+            title: 'Duis at erat maximus, suscipit erat sit amet',
+            isValid: true,
+          },
+          {
+            id: 'b263f61c-0835-11ed-861d-0242ac120002',
+            title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+            isValid: false,
+          },
+        ],
+      },
+      {
+        id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+        title:
+          'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+        isRandomAnswers: false,
+        answers: [
+          {
+            id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+            title: 'Nulla at dolor ac mauris vehicula scelerisque',
+            isValid: true,
+          },
+          {
+            id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+            title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+            isValid: true,
+          },
+        ],
+      },
+    ],
   };
   const newQuizz: Quizz = {
-    id: 1,
-    title: 'PSM I - Examen blanc 1',
+    id: 'c08349be-0835-11ed-861d-0242ac120002',
+    title: 'Quizz numéro 1',
     description:
-      'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
     isRandomQuestions: true,
-    duration: 10,
+    duration: 25,
+    questions: [
+      {
+        id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+        isRandomAnswers: true,
+        answers: [
+          {
+            id: 'ada66cea-0835-11ed-861d-0242ac120002',
+            title: 'Duis at erat maximus, suscipit erat sit amet',
+            isValid: true,
+          },
+          {
+            id: 'b263f61c-0835-11ed-861d-0242ac120002',
+            title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+            isValid: false,
+          },
+        ],
+      },
+      {
+        id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+        title:
+          'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+        isRandomAnswers: false,
+        answers: [
+          {
+            id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+            title: 'Nulla at dolor ac mauris vehicula scelerisque',
+            isValid: true,
+          },
+          {
+            id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+            title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+            isValid: true,
+          },
+        ],
+      },
+    ],
   };
   httpClientSpy.post.and.returnValue(of(newQuizz));
 
@@ -86,15 +234,52 @@ it('save quizz without id should create a new quizz ands return it', (done: Done
 
 it('save quizz with id should update corresponding quizz and return it', (done: DoneFn) => {
   const quizz: Quizz = {
-    id: 1,
-    title: 'PSM I - Examen blanc 1',
+    id: 'c08349be-0835-11ed-861d-0242ac120002',
+    title: 'Quizz numéro 1',
     description:
-      'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
     isRandomQuestions: true,
-    duration: 10,
+    duration: 25,
+    questions: [
+      {
+        id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+        isRandomAnswers: true,
+        answers: [
+          {
+            id: 'ada66cea-0835-11ed-861d-0242ac120002',
+            title: 'Duis at erat maximus, suscipit erat sit amet',
+            isValid: true,
+          },
+          {
+            id: 'b263f61c-0835-11ed-861d-0242ac120002',
+            title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+            isValid: false,
+          },
+        ],
+      },
+      {
+        id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+        title:
+          'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+        isRandomAnswers: false,
+        answers: [
+          {
+            id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+            title: 'Nulla at dolor ac mauris vehicula scelerisque',
+            isValid: true,
+          },
+          {
+            id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+            title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+            isValid: true,
+          },
+        ],
+      },
+    ],
   };
   const newQuizz: Quizz = quizz;
-  httpClientSpy.post.and.returnValue(of(newQuizz));
+  httpClientSpy.put.and.returnValue(of(newQuizz));
 
   quizzService.save(quizz).subscribe({
     next: (response) => {
@@ -103,27 +288,110 @@ it('save quizz with id should update corresponding quizz and return it', (done: 
     },
     error: done.fail,
   });
-  expect(httpClientSpy.post.calls.count()).withContext('one call').toBe(1);
+  expect(httpClientSpy.put.calls.count()).withContext('one call').toBe(1);
 });
 
-it('delete quizz should delete the corresponding quizz and return a message', (done: DoneFn) => {
+it('delete quizz should delete the corresponding quizz and return others quizzes', (done: DoneFn) => {
   const quizz: Quizz = {
-    id: 1,
-    title: 'PSM I - Examen blanc 1',
+    id: 'c08349be-0835-11ed-861d-0242ac120002',
+    title: 'Quizz numéro 1',
     description:
-      'You can re-visit any question until the time limit expires, but you must answer before proceeding to the next question.\n\nBookmark questions for review by clicking this button located near each question.\n\nClicking See all questions will allow you to see which questions you have bookmarked and navigate to that question or any other answered question for review.\n\nWhen you submit your test or your timer runs out, all answers will be saved even when you have unresolved bookmarks.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
     isRandomQuestions: true,
-    duration: 10,
+    duration: 25,
+    questions: [
+      {
+        id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+        isRandomAnswers: true,
+        answers: [
+          {
+            id: 'ada66cea-0835-11ed-861d-0242ac120002',
+            title: 'Duis at erat maximus, suscipit erat sit amet',
+            isValid: true,
+          },
+          {
+            id: 'b263f61c-0835-11ed-861d-0242ac120002',
+            title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+            isValid: false,
+          },
+        ],
+      },
+      {
+        id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+        title:
+          'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+        isRandomAnswers: false,
+        answers: [
+          {
+            id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+            title: 'Nulla at dolor ac mauris vehicula scelerisque',
+            isValid: true,
+          },
+          {
+            id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+            title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+            isValid: true,
+          },
+        ],
+      },
+    ],
   };
-  const newQuizz = { message: 'Answer was deleted.' };
-  httpClientSpy.post.and.returnValue(of(newQuizz));
+  const expectedResponse = [
+    {
+      id: '08e628ec-0869-11ed-861d-0242ac120002',
+      title: 'Quizz numéro 1',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at erat maximus, suscipit erat sit amet, rhoncus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed hendrerit sapien diam, eget varius augue blandit at. Aenean nec purus leo. Mauris gravida hendrerit lorem, ut convallis mauris vulputate id. \n\nQuisque vestibulum, odio at dignissim fermentum, nulla lorem sodales tortor, vitae aliquet urna nibh quis lectus. Nunc gravida non velit a consectetur. Fusce mattis quam eget ipsum ullamcorper efficitur. Pellentesque suscipit sapien leo, quis pretium tortor vestibulum id. \n\nNam nunc velit, imperdiet egestas ligula ultricies, tempor consequat ligula. Aliquam mollis, nisl quis tincidunt vestibulum, lacus ante lacinia turpis, nec consequat erat magna sit amet ante. Mauris blandit quam in cursus aliquet. \n\nUt sed nunc at augue aliquet egestas. Nullam finibus nisl eu condimentum blandit. Etiam efficitur tellus vitae mattis ultrices.',
+      isRandomQuestions: true,
+      duration: 25,
+      questions: [
+        {
+          id: 'ba7d9ca4-0835-11ed-861d-0242ac120002',
+          title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+          isRandomAnswers: true,
+          answers: [
+            {
+              id: 'ada66cea-0835-11ed-861d-0242ac120002',
+              title: 'Duis at erat maximus, suscipit erat sit amet',
+              isValid: true,
+            },
+            {
+              id: 'b263f61c-0835-11ed-861d-0242ac120002',
+              title: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae',
+              isValid: false,
+            },
+          ],
+        },
+        {
+          id: 'b551eea0-0868-11ed-a2e9-49d03053f4c1',
+          title:
+            'Aliquam dui dui, pulvinar eget enim vel, luctus rhoncus nisi. Integer rhoncus vulputate mi nec imperdiet ?',
+          isRandomAnswers: false,
+          answers: [
+            {
+              id: 'b58385f0-0868-11ed-8252-d93ca655a502',
+              title: 'Nulla at dolor ac mauris vehicula scelerisque',
+              isValid: true,
+            },
+            {
+              id: 'cd4d9c70-0868-11ed-97b5-95a8aa93e9f1',
+              title: 'In mauris elit, condimentum vel commodo eget, porta non eros',
+              isValid: true,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+  httpClientSpy.delete.and.returnValue(of(expectedResponse));
 
   quizzService.delete(quizz).subscribe({
     next: (response) => {
-      expect(response).withContext('expected message').toEqual(newQuizz);
+      expect(response).withContext('expected response').toEqual(expectedResponse);
       done();
     },
     error: done.fail,
   });
-  expect(httpClientSpy.post.calls.count()).withContext('one call').toBe(1);
+  expect(httpClientSpy.delete.calls.count()).withContext('one call').toBe(1);
 });

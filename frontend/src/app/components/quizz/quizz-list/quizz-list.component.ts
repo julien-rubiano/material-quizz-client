@@ -16,7 +16,7 @@ export class QuizzListComponent implements OnInit {
   dataSource = new MatTableDataSource<Quizz>();
   isAdmin = false;
   currentUser!: User;
-  displayedColumns: string[] = ['id', 'title', 'duration', 'play', 'edit', 'delete'];
+  displayedColumns: string[] = ['title', 'duration', 'play', 'edit', 'delete'];
 
   constructor(
     private quizzService: QuizzService,
@@ -31,7 +31,7 @@ export class QuizzListComponent implements OnInit {
   }
 
   getQuizz(): void {
-    this.quizzService.getAllQuizz().subscribe((quizz) => {
+    this.quizzService.getAllQuizzes().subscribe((quizz) => {
       this.dataSource = new MatTableDataSource(quizz);
     });
   }

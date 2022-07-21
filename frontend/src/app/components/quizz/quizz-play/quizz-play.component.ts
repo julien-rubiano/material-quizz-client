@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { forkJoin, interval, map, Observable, shareReplay } from 'rxjs';
 import { Countdown } from 'src/app/models/countdown.model';
 import { Answer, Game, Question, Quizz } from 'src/app/models/quizz.model';
-import { AnswerService } from 'src/app/services/answer.service';
-import { QuestionService } from 'src/app/services/question.service';
 import { QuizzService } from 'src/app/services/quizz.service';
 
 @Component({
@@ -20,16 +18,10 @@ export class QuizzPlayComponent implements OnInit {
   countdownMinutes = 0;
   isQuestionsDisplay = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private quizzService: QuizzService,
-    private questionService: QuestionService,
-    private answerService: AnswerService,
-    private renderer: Renderer2
-  ) {}
+  constructor(private route: ActivatedRoute, private quizzService: QuizzService, private renderer: Renderer2) {}
 
   ngOnInit() {
-    const quizzId = parseInt(this.route.snapshot.paramMap.get('id') || '{}');
+    const quizzId = this.route.snapshot.paramMap.get('id') || '{}';
     if (quizzId) {
       this.game = {
         isStarted: false,
@@ -37,22 +29,14 @@ export class QuizzPlayComponent implements OnInit {
         score: 0,
         scorePercent: 0,
         correctAnswers: [],
-        wrongAnswers: []
-      }
+        wrongAnswers: [],
+      };
       this.fillQuizz(quizzId);
     }
   }
 
-  private fillQuizz(quizzId: number): void {
-    let getQuizz = this.quizzService.getQuizzById(quizzId);
-    let getQuestions = this.questionService.getQuestionsByQuizzId(quizzId);
-    let getAnswers = this.answerService.getAnswersByQuizzId(quizzId);
-
-    forkJoin([getQuizz, getQuestions, getAnswers]).subscribe((results) => {
-      let quizzResponse = results[0];
-      let questionsResponse = results[1];
-      let answersResponse = results[2];
-
+  private fillQuizz(quizzId: string): void {
+    this.quizzService.getQuizzById(quizzId).subscribe((quizzResponse) => {
       //quizz
       this.quizz = {
         id: quizzResponse.id,
@@ -60,6 +44,7 @@ export class QuizzPlayComponent implements OnInit {
         description: quizzResponse.description.replace(new RegExp('\n', 'g'), '<br>'),
         isRandomQuestions: quizzResponse.isRandomQuestions,
         duration: quizzResponse.duration,
+        questions: quizzResponse.questions,
       };
 
       this.countdownMinutes = quizzResponse.duration;
@@ -67,43 +52,21 @@ export class QuizzPlayComponent implements OnInit {
       let questions: Question[] = [];
 
       // questions and answers
-      if (questionsResponse?.length > 0) {
-        let questionPosition = 1;
-        questionsResponse.forEach((q) => {
-          let answers: Answer[] = [];
-          answersResponse
-            .filter((a) => a.questionId === q.id)
-            .forEach((a) => {
-              answers.push(a);
-            });
-
-          if (q.isRandomAnswers) {
-            answers = answers
-              .map((value) => ({ value, sort: Math.random() }))
-              .sort((a, b) => a.sort - b.sort)
-              .map(({ value }) => value);
-          }
-
-          let question: Question = {
-            id: q.id,
-            title: q.title.replace(new RegExp('\n', 'g'), '<br>'),
-            isRandomAnswers: q.isRandomAnswers,
-            quizzId: q.quizzId,
-            answers: answers,
-          };
-          questions.push(question);
-          questionPosition++;
-        });
-      }
+      this.quizz.questions!.forEach((q) => {
+        if (q.isRandomAnswers) {
+          q.answers = q
+            .answers!.map((value) => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+        }
+      });
 
       if (this.quizz.isRandomQuestions) {
-        questions = questions
-          .map((value) => ({ value, sort: Math.random() }))
+        this.quizz.questions = this.quizz
+          .questions!.map((value) => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
           .map(({ value }) => value);
       }
-
-      this.quizz.questions = questions;      
     });
   }
 
@@ -163,22 +126,22 @@ export class QuizzPlayComponent implements OnInit {
   }
 
   updateGame(event: MatCheckboxChange, answer: Answer) {
-    if(event.checked) {
-      if(answer.isValid) {
-        this.game.score ++;
+    if (event.checked) {
+      if (answer.isValid) {
+        this.game.score++;
         this.game.correctAnswers.push(answer);
       } else {
         this.game.wrongAnswers.push(answer);
       }
     } else {
-      if(answer.isValid) {
-        this.game.score --;
-        this.game.correctAnswers = this.game.correctAnswers.filter(a => a != answer);
+      if (answer.isValid) {
+        this.game.score--;
+        this.game.correctAnswers = this.game.correctAnswers.filter((a) => a != answer);
       } else {
-        this.game.wrongAnswers = this.game.wrongAnswers.filter(a => a != answer);
+        this.game.wrongAnswers = this.game.wrongAnswers.filter((a) => a != answer);
       }
     }
-    this.game.scorePercent = Math.round(this.game.score / this.quizz.questions!.length * 100);
+    this.game.scorePercent = Math.round((this.game.score / this.quizz.questions!.length) * 100);
   }
 
   finishGame(): void {
@@ -186,18 +149,31 @@ export class QuizzPlayComponent implements OnInit {
   }
 
   isQuestionCorrect(question: Question): boolean {
-    return this.game.wrongAnswers.filter(a => a.questionId === question.id).length === 0 && this.game.correctAnswers.filter(a => a.questionId === question.id).length > 0;
+    return (
+      !this.game.wrongAnswers.some((a) => question.answers!.includes(a)) &&
+      this.game.correctAnswers.some((a) => question.answers!.includes(a))
+    );
   }
 
   isAnswerCorrect(answer: Answer): boolean {
-    return this.game.correctAnswers.filter(a => a.id === answer.id).length > 0 || this.game.wrongAnswers.filter(a => a.id === answer.id).length === 0;
+    return (
+      this.game.correctAnswers.filter((a) => a.id === answer.id).length > 0 ||
+      this.game.wrongAnswers.filter((a) => a.id === answer.id).length === 0
+    );
   }
 
   isAnswerChecked(answer: Answer): boolean {
-    return this.game.wrongAnswers.filter(a => a.id === answer.id).length > 0 || this.game.correctAnswers.filter(a => a.id === answer.id).length > 0 || answer.isValid;
+    return (
+      this.game.wrongAnswers.filter((a) => a.id === answer.id).length > 0 ||
+      this.game.correctAnswers.filter((a) => a.id === answer.id).length > 0 ||
+      answer.isValid
+    );
   }
 
   isPlayerAnswer(answer: Answer): boolean {
-    return this.game.wrongAnswers.filter(a => a.id === answer.id).length > 0 || this.game.correctAnswers.filter(a => a.id === answer.id).length > 0;
+    return (
+      this.game.wrongAnswers.filter((a) => a.id === answer.id).length > 0 ||
+      this.game.correctAnswers.filter((a) => a.id === answer.id).length > 0
+    );
   }
 }

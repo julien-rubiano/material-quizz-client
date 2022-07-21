@@ -16,8 +16,11 @@ beforeEach(() => {
 
   let store: LocalStorage = {};
   const mockLocalStorage = {
-    getItem: (key: string): string => '{"id":1,"firstName":"Julien","lastName":"Rubiano"}',
-    setItem: (key: string, value: string) => (store.user = '{"id":1,"firstName":"Julien","lastName":"Rubiano"}'),
+    getItem: (key: string): string =>
+      '{"id":"c618e0e6-0835-11ed-861d-0242ac120002","firstName":"Admin","lastName":"Admin","login": "admin","password": "admin","isAdmin": true}',
+    setItem: (key: string, value: string) =>
+      (store.user =
+        '{"id":"c618e0e6-0835-11ed-861d-0242ac120002","firstName":"Admin","lastName":"Admin","login": "admin","password": "admin","isAdmin": true}'),
     removeItem: (key: string) => delete store.user,
     clear: () => (store = {}),
   };
@@ -28,13 +31,27 @@ beforeEach(() => {
 });
 
 it('setCurrentUser should store the user in localStorage', () => {
-  const user: User = { id: 1, firstName: 'Julien', lastName: 'Rubiano' };
+  const user: User = {
+    id: 'c618e0e6-0835-11ed-861d-0242ac120002',
+    firstName: 'Admin',
+    lastName: 'Admin',
+    login: 'admin',
+    password: 'admin',
+    isAdmin: true,
+  };
   authService.setCurrentUser(user);
   expect(JSON.parse(localStorage.getItem('user') || '{}') as User).toEqual(user);
 });
 
 it('getCurrentUser should return the user from localStorage', () => {
-  const user: User = { id: 1, firstName: 'Julien', lastName: 'Rubiano' };
+  const user: User = {
+    id: 'c618e0e6-0835-11ed-861d-0242ac120002',
+    firstName: 'Admin',
+    lastName: 'Admin',
+    login: 'admin',
+    password: 'admin',
+    isAdmin: true,
+  };
   expect(authService.getCurrentUser()).toEqual(user);
 });
 

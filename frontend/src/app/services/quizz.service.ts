@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Quizz } from '../models/quizz.model';
 import { handleError } from './services.utils';
-import { HttpDeleteResponse } from '../models/http.model';
 
 @Injectable()
 export class QuizzService {
-  private quizzUrl = 'http://localhost/api/quizz';
+  private quizzUrl = 'http://localhost:4200/api';
 
   constructor(private http: HttpClient) {}
 
-  getAllQuizz(): Observable<Quizz[]> {
-    return this.http.get<Quizz[]>(`${this.quizzUrl}/read.php`).pipe(catchError(handleError<Quizz[]>('getAllQuizz')));
+  getAllQuizzes(): Observable<Quizz[]> {
+    return this.http.get<Quizz[]>(`${this.quizzUrl}/quizzes`).pipe(catchError(handleError));
   }
 
-  getQuizzById(quizzId: number): Observable<Quizz> {
-    return this.http
-      .get<Quizz>(`${this.quizzUrl}/read-single.php?id=${quizzId}`)
-      .pipe(catchError(handleError<Quizz>('getQuizzById')));
+  getQuizzById(quizzId: string): Observable<Quizz> {
+    return this.http.get<Quizz>(`${this.quizzUrl}/quizzes/${quizzId}`).pipe(catchError(handleError));
   }
 
   save(quizz: Quizz): Observable<Quizz> {
@@ -30,20 +27,14 @@ export class QuizzService {
   }
 
   private create(quizz: Quizz): Observable<Quizz> {
-    return this.http
-      .post<Quizz>(`${this.quizzUrl}/create.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError<Quizz>('create')));
+    return this.http.post<Quizz>(`${this.quizzUrl}/quizzes`, quizz).pipe(catchError(handleError));
   }
 
   private update(quizz: Quizz): Observable<Quizz> {
-    return this.http
-      .post<Quizz>(`${this.quizzUrl}/update.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError<Quizz>('update')));
+    return this.http.put<Quizz>(`${this.quizzUrl}/quizzes/${quizz.id}`, quizz).pipe(catchError(handleError));
   }
 
-  delete(quizz: Quizz): Observable<HttpDeleteResponse> {
-    return this.http
-      .post<HttpDeleteResponse>(`${this.quizzUrl}/delete.php`, JSON.stringify(quizz))
-      .pipe(catchError(handleError<HttpDeleteResponse>('delete')));
+  delete(quizz: Quizz): Observable<Quizz[]> {
+    return this.http.delete<Quizz[]>(`${this.quizzUrl}/quizzes/${quizz.id}`).pipe(catchError(handleError));
   }
 }

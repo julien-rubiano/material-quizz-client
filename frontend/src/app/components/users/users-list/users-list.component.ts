@@ -15,7 +15,7 @@ export class UsersListComponent implements OnInit {
   dataSource = new MatTableDataSource<User>();
   isAdmin = false;
   currentUser!: User;
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'login', 'password', 'isAdmin', 'edit', 'delete'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'login', 'password', 'isAdmin', 'edit', 'delete'];
 
   constructor(
     private userService: UserService,

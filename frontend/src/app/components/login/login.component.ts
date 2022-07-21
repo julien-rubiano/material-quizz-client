@@ -11,10 +11,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage!: string;
 
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', Validators.required],

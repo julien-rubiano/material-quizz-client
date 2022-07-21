@@ -27,7 +27,7 @@ export class UsersSaveComponent {
   ) {}
 
   ngOnInit(): void {
-    const userId = parseInt(this.route.snapshot.paramMap.get('id') || '{}');
+    const userId = this.route.snapshot.paramMap.get('id');
     this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.initForm();
     if (userId) {
@@ -47,7 +47,7 @@ export class UsersSaveComponent {
     });
   }
 
-  fillForm(userId: number) {
+  fillForm(userId: string) {
     this.userService.getUserById(userId).subscribe((userResponse) => {
       this.userForm.patchValue({
         id: userResponse.id,
@@ -119,7 +119,7 @@ export class UsersSaveComponent {
   }
 
   saveUser(user: User) {
-    this.userService.save(user).subscribe(() => this.snackBar.open("L'utilisateur a bien été créé"));
+    this.userService.save(user).subscribe((user) => user.id ?? this.snackBar.open("L'utilisateur a bien été créé"));
   }
 
   return() {

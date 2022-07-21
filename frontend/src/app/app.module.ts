@@ -38,8 +38,6 @@ import { UsersSaveComponent } from 'src/app/components/users/users-save/users-sa
 import { MenuLayoutComponent } from 'src/app/components/menu-layout/menu-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { QuizzSaveComponent } from './components/quizz/quizz-save/quizz-save.component';
-import { QuestionService } from './services/question.service';
-import { AnswerService } from './services/answer.service';
 import { QuizzPlayComponent } from './components/quizz/quizz-play/quizz-play.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
@@ -93,8 +91,6 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
     QuizzService,
     AuthGuard,
     AdminGuard,
-    QuestionService,
-    AnswerService,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],

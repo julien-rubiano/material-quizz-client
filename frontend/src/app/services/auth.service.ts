@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { User } from '../models/user.model';
+import { catchError } from 'rxjs/operators';
+import { User, Credentials } from '../models/user.model';
 import { Router } from '@angular/router';
-import { Credentials } from '../models/credentials.model';
 import { handleError } from './services.utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private usersUrl = 'http://localhost/api/users';
+  private usersUrl = 'http://localhost:4200/api';
   private storageKey = 'user';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -26,26 +25,16 @@ export class AuthService {
 
   isCurrentUserAdmin(): Observable<boolean> {
     const currentUser = this.getCurrentUser();
-    return this.http
-      .get<boolean>(`${this.usersUrl}/is_admin.php?id=${currentUser.id}`)
-      .pipe(catchError(handleError<boolean>('isCurrentUserAdmin')));
+    return this.http.get<boolean>(`${this.usersUrl}/users/${currentUser.id}/isAdmin`).pipe(catchError(handleError));
   }
 
   login(credentials: Credentials): Observable<User> {
-    return this.http
-      .post<User>(
-        `${this.usersUrl}/login.php`,
-        JSON.stringify({
-          login: credentials.login,
-          password: credentials.password,
-        })
-      )
-      .pipe(catchError(handleError<User>('login')));
+    return this.http.post<User>(`${this.usersUrl}/users/auth`, credentials).pipe(catchError(handleError));
   }
 
   validateLogin(request: Observable<User>): void {
     request.subscribe((user) => {
-      localStorage.setItem(this.storageKey, JSON.stringify(user));
+      this.setCurrentUser(user);
       this.router.navigate(['/']);
     });
   }

@@ -5,12 +5,10 @@ import { Answer, Question, Quizz } from 'src/app/models/quizz.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { QuizzService } from 'src/app/services/quizz.service';
-import { QuestionService } from 'src/app/services/question.service';
-import { AnswerService } from 'src/app/services/answer.service';
-import { Observable, forkJoin } from 'rxjs';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSliderChange } from '@angular/material/slider';
+import { v1 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-quizz-save',
@@ -25,8 +23,6 @@ export class QuizzSaveComponent implements OnInit {
 
   constructor(
     private quizzService: QuizzService,
-    private questionService: QuestionService,
-    private answerService: AnswerService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -35,7 +31,7 @@ export class QuizzSaveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const quizzId = parseInt(this.route.snapshot.paramMap.get('id') || '{}');
+    const quizzId = this.route.snapshot.paramMap.get('id');
     this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.initQuizz();
     if (quizzId) {
@@ -44,35 +40,19 @@ export class QuizzSaveComponent implements OnInit {
     }
   }
 
-  /**
-   * Initialize the quizz with empty data
-   */
   private initQuizz() {
     this.quizzForm = this.fb.group({
       id: [''],
       title: ['', Validators.required],
       description: [''],
-      isRandomQuestions: [''],
-      duration: ['', Validators.pattern('^[0-9]*$')],
-      questions: this.fb.array([this.newQuestion()]),
+      isRandomQuestions: [false],
+      duration: [0, Validators.pattern('^[0-9]*$')],
+      questions: this.fb.array([]),
     });
-    this.questions.removeAt(0);
   }
 
-  /**
-   * Fill the quizz with data from database
-   */
-  private fillQuizz(quizzId: number): void {
-    let getQuizz = this.quizzService.getQuizzById(quizzId);
-    let getQuestions = this.questionService.getQuestionsByQuizzId(quizzId);
-    let getAnswers = this.answerService.getAnswersByQuizzId(quizzId);
-
-    forkJoin([getQuizz, getQuestions, getAnswers]).subscribe((results) => {
-      let quizzResponse = results[0];
-      let questionsResponse = results[1];
-      let answersResponse = results[2];
-
-      //quizz
+  private fillQuizz(quizzId: string): void {
+    this.quizzService.getQuizzById(quizzId).subscribe((quizzResponse) => {
       this.quizzForm.patchValue({
         id: quizzResponse.id,
         title: quizzResponse.title,
@@ -81,35 +61,20 @@ export class QuizzSaveComponent implements OnInit {
         duration: quizzResponse.duration,
       });
 
-      // questions and answers
-      if (questionsResponse?.length > 0) {
-        questionsResponse.forEach((q) => {
-          let answersFormArray: FormArray = this.fb.array([this.newAnswer()]);
-          answersFormArray.removeAt(0);
-
-          answersResponse
-            .filter((a) => a.questionId === q.id)
-            .forEach((a) => {
-              let answerFormGroup: FormGroup = this.fb.group({
-                id: a.id,
-                title: a.title,
-                isValid: a.isValid,
-                questionId: a.questionId,
-                quizzId: quizzResponse.id,
-              });
-              answersFormArray.push(answerFormGroup);
-            });
-
-          let questionFormGroup: FormGroup = this.fb.group({
-            id: q.id,
-            title: [q.title],
-            isRandomAnswers: [q.isRandomAnswers],
-            quizzId: q.quizzId,
-            answers: answersFormArray,
-          });
-          this.questions.push(questionFormGroup);
+      quizzResponse.questions?.forEach((question) => {
+        let answersFormArray = this.fb.array([]);
+        question.answers?.forEach((answer) => {
+          answersFormArray.push(this.fb.group(answer));
         });
-      }
+
+        let questionFormGroup: FormGroup = this.fb.group({
+          id: question.id,
+          title: question.title,
+          isRandomAnswers: question.isRandomAnswers,
+          answers: answersFormArray,
+        });
+        this.questions.push(questionFormGroup);
+      });
     });
   }
 
@@ -149,151 +114,86 @@ export class QuizzSaveComponent implements OnInit {
     }
   }
 
-  /**
-   * Getter for questions as FormArray
-   */
   get questions(): FormArray {
     return this.quizzForm.get('questions') as FormArray;
   }
 
-  /**
-   * Create a form group for Question
-   */
   private newQuestion(): FormGroup {
     return this.fb.group({
-      id: [''],
+      id: [uuid()],
       title: [''],
-      isRandomAnswers: [''],
-      quizzId: [''],
-      answers: this.fb.array([this.newAnswer()]),
+      isRandomAnswers: [false],
+      answers: this.fb.array([]),
     });
   }
 
-  /**
-   * Add a question to existing quizz
-   */
   addQuestion() {
     let newQuestion = this.newQuestion();
-    newQuestion.patchValue({ quizzId: this.quizzForm.value.id });
-    this.questionService.save(newQuestion.value).subscribe((questionResponse) => {
-      newQuestion.patchValue({ id: questionResponse.id });
-      this.questions.push(newQuestion);
-      let questionIndex = this.questions.controls.findIndex((c) => c.value.id === questionResponse.id);
-      this.getAnswersFormArray(questionIndex).removeAt(0);
-      this.addAnswer(questionIndex);
-    });
+    this.questions.push(newQuestion);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   duplicateQuestion(questionToDuplicate: AbstractControl) {
-    let newQuestion = this.newQuestion();
-    newQuestion.patchValue({
+    let answersFormArray = this.fb.array([]);
+    questionToDuplicate.value.answers?.forEach((answer: Answer) => {
+      answersFormArray.push(this.fb.group(answer));
+    });
+
+    let newQuestion: FormGroup = this.fb.group({
+      id: questionToDuplicate.value.id,
       title: questionToDuplicate.value.title,
       isRandomAnswers: questionToDuplicate.value.isRandomAnswers,
-      quizzId: questionToDuplicate.value.quizzId,
+      answers: answersFormArray,
     });
+    this.questions.push(newQuestion);
 
-    this.questionService.save(newQuestion.value).subscribe((questionResponse) => {
-      newQuestion.patchValue({ id: questionResponse.id });
-      this.questions.push(newQuestion);
-      (<FormArray>newQuestion.get('answers')).removeAt(0);
-
-      let answersToDuplicate = questionToDuplicate.get('answers');
-      if (!!answersToDuplicate && answersToDuplicate.value.length > 0) {
-        answersToDuplicate.value.forEach((answerToDuplicate: Answer) => {
-          let newAnswer = this.newAnswer();
-          newAnswer.patchValue({
-            title: answerToDuplicate.title,
-            isValid: answerToDuplicate.isValid,
-            questionId: questionResponse.id,
-            quizzId: answerToDuplicate.quizzId,
-          });
-          this.answerService.save(newAnswer.value).subscribe((answerResponse) => {
-            newAnswer.patchValue({ id: answerResponse.id });
-            (<FormArray>newQuestion.get('answers')).push(newAnswer);
-          });
-        });
-      }
-    });
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  /**
-   * Remove a question from the quizz
-   * @param questionIndex - index of the question to be removed
-   */
   removeQuestion(questionIndex: number) {
-    let questionValue = this.questions.controls[questionIndex].value;
-    let question: Question = {
-      id: questionValue.id,
-      title: questionValue.title,
-      quizzId: questionValue.quizzId,
-      isRandomAnswers: questionValue.isRandomAnswers,
-    };
-    this.questionService.delete(question).subscribe(() => this.questions.removeAt(questionIndex));
+    this.questions.removeAt(questionIndex);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editQuestionTitle(event: any, question: AbstractControl) {
     question.patchValue({
       title: event.target.value,
     });
-    this.questionService.save(question.value).subscribe();
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editQuestionIsRandomAnswers(event: MatSlideToggleChange, question: AbstractControl) {
     question.patchValue({
       isRandomAnswers: event.checked,
     });
-    this.questionService.save(question.value).subscribe();
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  /**
-   * Create a form group for Answer
-   */
   private newAnswer(): FormGroup {
     return this.fb.group({
-      id: [''],
+      id: [uuid()],
       title: [''],
-      isValid: [''],
-      questionId: [''],
-      quizzId: [''],
+      isValid: [false],
     });
   }
 
-  /**
-   * Add answer to the selected question
-   * @param questionIndex - index of the question selected
-   */
   addAnswer(questionIndex: number) {
     let newAnswer = this.newAnswer();
     let question = this.questions.at(questionIndex);
-    newAnswer.patchValue({ quizzId: this.quizzForm.value.id, questionId: question.value.id });
-    this.answerService.save(newAnswer.value).subscribe((answerResponse) => {
-      newAnswer.patchValue({ id: answerResponse.id });
-      (<FormArray>question.get('answers')).push(newAnswer);
-    });
+    (<FormArray>question.get('answers')).push(newAnswer);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  /**
-   * Remove an answer from the question
-   * @param questionIndex - index of the selected question
-   * @param answerIndex - index of answer to delete
-   */
   removeAnswer(questionIndex: number, answerIndex: number) {
-    let answerValue = this.getAnswersFormArray(questionIndex).controls[answerIndex].value;
-    let answer: Answer = {
-      id: answerValue.id,
-      title: answerValue.title,
-      isValid: answerValue.isValid,
-      questionId: answerValue.questionId,
-      quizzId: answerValue.quizzId,
-    };
-    this.answerService.delete(answer).subscribe(() => this.getAnswersFormArray(questionIndex).removeAt(answerIndex));
+    this.getAnswersFormArray(questionIndex).removeAt(answerIndex);
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   editAnswerTitle(event: any, answer: AbstractControl) {
     answer.patchValue({
       title: event.target.value,
     });
-    this.answerService.save(answer.value).subscribe();
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
   isAnswerValid(answer: AbstractControl) {
@@ -305,21 +205,13 @@ export class QuizzSaveComponent implements OnInit {
     answer.patchValue({
       isValid: newValue,
     });
-    this.answerService.save(answer.value).subscribe();
+    this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  /**
-   * Get answers of a particular index as FormArray
-   * @param questionIndex - index of the question
-   */
   getAnswersFormArray(questionIndex: number): FormArray {
     return this.questions.controls[questionIndex].get('answers') as FormArray;
   }
 
-  /**
-   * Get Form Controls of the answers array
-   * @param questionIndex - index of the question
-   */
   getAnswerControls(questionIndex: number): AbstractControl[] {
     return this.getAnswersFormArray(questionIndex).controls;
   }
@@ -332,16 +224,10 @@ export class QuizzSaveComponent implements OnInit {
     return value;
   }
 
-  /**
-   * Return to the previous page
-   */
-  return() {
+  goBack() {
     this.router.navigate(['/quizz']);
   }
 
-  /**
-   * Submit the form
-   */
   createQuizz() {
     if (this.quizzForm.status === 'VALID') {
       this.quizzService.save(this.quizzForm.value).subscribe((quizzResponse) => {

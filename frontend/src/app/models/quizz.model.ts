@@ -1,5 +1,5 @@
 export interface Quizz {
-  id?: number;
+  id?: string;
   title: string;
   description: string;
   isRandomQuestions: boolean;
@@ -8,19 +8,16 @@ export interface Quizz {
 }
 
 export interface Question {
-  id?: number;
+  id?: string;
   title: string;
   isRandomAnswers: boolean;
-  quizzId?: number;
   answers?: Answer[];
 }
 
 export interface Answer {
-  id?: number;
+  id?: string;
   title: string;
   isValid: boolean;
-  questionId?: number;
-  quizzId?: number;
 }
 
 export interface Game {

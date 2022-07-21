@@ -14,11 +14,6 @@
     </button>
   </mat-form-field>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
-    </ng-container>
-
     <ng-container matColumnDef="firstName">
       <th mat-header-cell *matHeaderCellDef>Prénom</th>
       <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>

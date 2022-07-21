@@ -1,8 +1,7 @@
-import { Observable, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 
-export function handleError<T>(operation = 'operation', result?: T) {
-  return (error: any): Observable<T> => {
-    console.error(error);
-    return of(result as T);
-  };
+export function handleError(res: HttpErrorResponse | any): Observable<never> {
+  console.error(res.error || res.body.error);
+  throw Error(res.error || 'Server error');
 }
