@@ -31,6 +31,7 @@ An open source Quizz project entirely built in Typescript/Javascript. It will al
 ![image](https://user-images.githubusercontent.com/32417791/180212805-19409a5d-d868-4d1b-9a88-a6df9c74358f.png)
 ![image](https://user-images.githubusercontent.com/32417791/180212843-aa536f07-99c4-4f1c-8df7-48f160e119f7.png)
 ![image](https://user-images.githubusercontent.com/32417791/180212904-a1d1df3a-c5ee-4b62-b33b-f9a5774e61ce.png)
+![image](https://user-images.githubusercontent.com/32417791/180213704-0b425e23-8fad-4a86-a895-e8e8a6973e12.png)
 
 
 # Technical informations
