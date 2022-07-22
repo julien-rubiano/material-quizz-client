@@ -9,9 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./menu-layout.component.css'],
 })
 export class MenuLayoutComponent implements OnInit {
-  isAdmin = false;
+  isAdmin: boolean = false;
   currentUser!: User;
-  title = 'Dashboard';
+  title: string = 'Dashboard';
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -32,10 +32,9 @@ export class MenuLayoutComponent implements OnInit {
         this.title = 'Tableau de bord';
         break;
     }
-    console.log(this.router.url);
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 

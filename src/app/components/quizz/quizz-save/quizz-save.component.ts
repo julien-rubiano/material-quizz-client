@@ -16,8 +16,8 @@ import { v1 as uuid } from 'uuid';
   styleUrls: ['./quizz-save.component.css'],
 })
 export class QuizzSaveComponent implements OnInit {
-  isAdmin = false;
-  isEditing = false;
+  isAdmin: boolean = false;
+  isEditing: boolean = false;
   currentUser!: User;
   quizzForm!: FormGroup;
 
@@ -40,7 +40,7 @@ export class QuizzSaveComponent implements OnInit {
     }
   }
 
-  private initQuizz() {
+  private initQuizz(): void {
     this.quizzForm = this.fb.group({
       id: [''],
       title: ['', Validators.required],
@@ -78,25 +78,25 @@ export class QuizzSaveComponent implements OnInit {
     });
   }
 
-  editQuizzTitle(event: any) {
+  editQuizzTitle(event: FocusEvent): void {
     this.quizzForm.patchValue({
-      title: event.target.value,
+      title: (event.target as HTMLInputElement).value,
     });
     if (this.isEditing) {
       this.quizzService.save(this.quizzForm.value).subscribe();
     }
   }
 
-  editQuizzDescription(event: any) {
+  editQuizzDescription(event: FocusEvent): void {
     this.quizzForm.patchValue({
-      description: event.target.value,
+      description: (event.target as HTMLInputElement).value,
     });
     if (this.isEditing) {
       this.quizzService.save(this.quizzForm.value).subscribe();
     }
   }
 
-  editQuizzIsRandomQuestions(event: MatSlideToggleChange) {
+  editQuizzIsRandomQuestions(event: MatSlideToggleChange): void {
     this.quizzForm.patchValue({
       isRandomQuestions: event.checked,
     });
@@ -105,7 +105,7 @@ export class QuizzSaveComponent implements OnInit {
     }
   }
 
-  editQuizzDuration(event: MatSliderChange) {
+  editQuizzDuration(event: MatSliderChange): void {
     this.quizzForm.patchValue({
       duration: event.value,
     });
@@ -127,13 +127,13 @@ export class QuizzSaveComponent implements OnInit {
     });
   }
 
-  addQuestion() {
+  addQuestion(): void {
     let newQuestion = this.newQuestion();
     this.questions.push(newQuestion);
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  duplicateQuestion(questionToDuplicate: AbstractControl) {
+  duplicateQuestion(questionToDuplicate: AbstractControl): void {
     let answersFormArray = this.fb.array([]);
     questionToDuplicate.value.answers?.forEach((answer: Answer) => {
       answersFormArray.push(this.fb.group(answer));
@@ -150,19 +150,19 @@ export class QuizzSaveComponent implements OnInit {
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  removeQuestion(questionIndex: number) {
+  removeQuestion(questionIndex: number): void {
     this.questions.removeAt(questionIndex);
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  editQuestionTitle(event: any, question: AbstractControl) {
+  editQuestionTitle(event: FocusEvent, question: AbstractControl): void {
     question.patchValue({
-      title: event.target.value,
+      title: (event.target as HTMLInputElement).value,
     });
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  editQuestionIsRandomAnswers(event: MatSlideToggleChange, question: AbstractControl) {
+  editQuestionIsRandomAnswers(event: MatSlideToggleChange, question: AbstractControl): void {
     question.patchValue({
       isRandomAnswers: event.checked,
     });
@@ -177,30 +177,30 @@ export class QuizzSaveComponent implements OnInit {
     });
   }
 
-  addAnswer(questionIndex: number) {
+  addAnswer(questionIndex: number): void {
     let newAnswer = this.newAnswer();
     let question = this.questions.at(questionIndex);
     (<FormArray>question.get('answers')).push(newAnswer);
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  removeAnswer(questionIndex: number, answerIndex: number) {
+  removeAnswer(questionIndex: number, answerIndex: number): void {
     this.getAnswersFormArray(questionIndex).removeAt(answerIndex);
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  editAnswerTitle(event: any, answer: AbstractControl) {
+  editAnswerTitle(event: FocusEvent, answer: AbstractControl): void {
     answer.patchValue({
-      title: event.target.value,
+      title: (event.target as HTMLInputElement).value,
     });
     this.quizzService.save(this.quizzForm.value).subscribe();
   }
 
-  isAnswerValid(answer: AbstractControl) {
+  isAnswerValid(answer: AbstractControl): boolean {
     return answer.value.isValid;
   }
 
-  editAnswerIsValid(answer: AbstractControl) {
+  editAnswerIsValid(answer: AbstractControl): void {
     let newValue = !answer.value.isValid;
     answer.patchValue({
       isValid: newValue,
@@ -216,7 +216,7 @@ export class QuizzSaveComponent implements OnInit {
     return this.getAnswersFormArray(questionIndex).controls;
   }
 
-  formatLabel(value: number) {
+  formatLabel(value: number): string | number {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
@@ -224,11 +224,11 @@ export class QuizzSaveComponent implements OnInit {
     return value;
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigate(['/quizz']);
   }
 
-  createQuizz() {
+  createQuizz(): void {
     if (this.quizzForm.status === 'VALID') {
       this.quizzService.save(this.quizzForm.value).subscribe((quizzResponse) => {
         this.snackBar.open('Le quizz a bien été créé, vous passez en mode édition');

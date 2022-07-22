@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Credentials } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -18,11 +19,11 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(formData: any) {
+  onSubmit(formData: Credentials): void {
     if (this.loginForm.status === 'VALID') {
       const loginRequest = this.authService.login(formData);
       loginRequest.subscribe(
-        (user) => {
+        () => {
           this.authService.validateLogin(loginRequest);
         },
         (error) => {
@@ -32,7 +33,7 @@ export class LoginComponent {
     }
   }
 
-  onKeyup() {
+  onKeyup(): void {
     this.errorMessage = '';
   }
 }

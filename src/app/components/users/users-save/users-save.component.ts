@@ -14,8 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UsersSaveComponent {
   userForm!: FormGroup;
-  isAdmin = false;
-  isEditing = false;
+  isAdmin: boolean = false;
+  isEditing: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -36,7 +36,7 @@ export class UsersSaveComponent {
     }
   }
 
-  initForm() {
+  initForm(): void {
     this.userForm = this.formBuilder.group({
       id: [''],
       firstName: ['', Validators.required],
@@ -47,7 +47,7 @@ export class UsersSaveComponent {
     });
   }
 
-  fillForm(userId: string) {
+  fillForm(userId: string): void {
     this.userService.getUserById(userId).subscribe((userResponse) => {
       this.userForm.patchValue({
         id: userResponse.id,
@@ -60,49 +60,48 @@ export class UsersSaveComponent {
     });
   }
 
-  editFirstName(event: any) {
+  editFirstName(event: FocusEvent): void {
     if (this.isEditing) {
       this.userForm.patchValue({
-        firstName: event.target.value,
+        firstName: (event.target as HTMLInputElement).value,
       });
 
       this.saveUser(this.userForm.value);
     }
   }
 
-  editLastName(event: any) {
+  editLastName(event: FocusEvent): void {
     if (this.isEditing) {
       this.userForm.patchValue({
-        lastName: event.target.value,
+        lastName: (event.target as HTMLInputElement).value,
       });
 
       this.saveUser(this.userForm.value);
     }
   }
 
-  editLogin(event: any) {
+  editLogin(event: FocusEvent): void {
     if (this.isEditing) {
       this.userForm.patchValue({
-        login: event.target.value,
+        login: (event.target as HTMLInputElement).value,
       });
 
       this.saveUser(this.userForm.value);
     }
   }
 
-  editPassword(event: any) {
+  editPassword(event: FocusEvent): void {
     if (this.isEditing) {
       this.userForm.patchValue({
-        password: event.target.value,
+        password: (event.target as HTMLInputElement).value,
       });
 
       this.saveUser(this.userForm.value);
     }
   }
 
-  editIsAdmin(event: MatSlideToggleChange) {
+  editIsAdmin(event: MatSlideToggleChange): void {
     if (this.isEditing) {
-      console.log(event.checked);
       this.userForm.patchValue({
         isAdmin: event.checked,
       });
@@ -111,18 +110,18 @@ export class UsersSaveComponent {
     }
   }
 
-  createUser() {
+  createUser(): void {
     if (this.userForm.status === 'VALID') {
       this.saveUser(this.userForm.value);
       this.router.navigate(['/users']);
     }
   }
 
-  saveUser(user: User) {
+  saveUser(user: User): void {
     this.userService.save(user).subscribe((user) => user.id ?? this.snackBar.open("L'utilisateur a bien été créé"));
   }
 
-  return() {
+  return(): void {
     this.router.navigate(['/users']);
   }
 }

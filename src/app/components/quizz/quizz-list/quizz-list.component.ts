@@ -13,8 +13,8 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./quizz-list.component.css'],
 })
 export class QuizzListComponent implements OnInit {
-  dataSource = new MatTableDataSource<Quizz>();
-  isAdmin = false;
+  dataSource: MatTableDataSource<Quizz> = new MatTableDataSource<Quizz>();
+  isAdmin: boolean = false;
   currentUser!: User;
   displayedColumns: string[] = ['title', 'duration', 'play', 'edit', 'delete'];
 
@@ -25,7 +25,7 @@ export class QuizzListComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.getQuizz();
   }
@@ -36,16 +36,16 @@ export class QuizzListComponent implements OnInit {
     });
   }
 
-  search(event: Event) {
+  search(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  edit(quizz: Quizz) {
+  edit(quizz: Quizz): void {
     this.router.navigate([`/quizz/edit/${quizz.id}`]);
   }
 
-  remove(quizz: Quizz) {
+  remove(quizz: Quizz): void {
     this.quizzService.delete(quizz).subscribe(() => {
       this.getQuizz();
       this.snackBar.open('Le quizz a bien été supprimé');

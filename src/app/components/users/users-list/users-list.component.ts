@@ -12,8 +12,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./users-list.component.css'],
 })
 export class UsersListComponent implements OnInit {
-  dataSource = new MatTableDataSource<User>();
-  isAdmin = false;
+  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
+  isAdmin: boolean = false;
   currentUser!: User;
   displayedColumns: string[] = ['firstName', 'lastName', 'login', 'password', 'isAdmin', 'edit', 'delete'];
 
@@ -24,7 +24,7 @@ export class UsersListComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.isCurrentUserAdmin().subscribe((result) => (this.isAdmin = result));
     this.getUsers();
   }
@@ -35,16 +35,16 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  search(event: Event) {
+  search(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  edit(user: User) {
+  edit(user: User): void {
     this.router.navigate([`/users/edit/${user.id}`]);
   }
 
-  remove(user: User) {
+  remove(user: User): void {
     this.userService.delete(user).subscribe(() => {
       this.snackBar.open("L'utilisateur a bien été supprimé");
       this.getUsers();

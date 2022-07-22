@@ -15,12 +15,12 @@ export class QuizzPlayComponent implements OnInit {
   quizz!: Quizz;
   game!: Game;
   countdown!: Observable<Countdown>;
-  countdownMinutes = 0;
-  isQuestionsDisplay = false;
+  countdownMinutes: number = 0;
+  isQuestionsDisplay: boolean = false;
 
   constructor(private route: ActivatedRoute, private quizzService: QuizzService, private renderer: Renderer2) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const quizzId = this.route.snapshot.paramMap.get('id') || '{}';
     if (quizzId) {
       this.game = {
@@ -93,7 +93,7 @@ export class QuizzPlayComponent implements OnInit {
     return { seconds, minutes, hours, progress };
   }
 
-  private addMinutes(date: Date, minutes: number) {
+  private addMinutes(date: Date, minutes: number): Date {
     return new Date(date.getTime() + minutes * 60000);
   }
 
@@ -111,12 +111,12 @@ export class QuizzPlayComponent implements OnInit {
     );
   }
 
-  showQuestions() {
+  showQuestions(): void {
     this.isQuestionsDisplay = true;
     this.renderer.addClass(document.getElementsByClassName('mat-horizontal-stepper-header-container')[0], 'show');
   }
 
-  hideQuestions() {
+  hideQuestions(): void {
     this.isQuestionsDisplay = false;
     this.renderer.removeClass(document.getElementsByClassName('mat-horizontal-stepper-header-container')[0], 'show');
   }
@@ -125,7 +125,7 @@ export class QuizzPlayComponent implements OnInit {
     return this.quizz.questions?.length || 0;
   }
 
-  saveAnswer(event: MatCheckboxChange, answer: Answer) {
+  saveAnswer(event: MatCheckboxChange, answer: Answer): void {
     if (event.checked) {
       if (answer.isValid) {
         this.game.correctAnswers.push(answer);
@@ -141,7 +141,7 @@ export class QuizzPlayComponent implements OnInit {
     }
   }
 
-  updateScore(question: Question) {
+  updateScore(question: Question): void {
     if (this.isQuestionCorrect(question)) {
       this.game.score++;
     }

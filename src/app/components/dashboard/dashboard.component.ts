@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  isAdmin = false;
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {}
 
